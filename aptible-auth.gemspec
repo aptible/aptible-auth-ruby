@@ -10,8 +10,8 @@ Gem::Specification.new do |spec|
   spec.version       = Aptible::Auth::VERSION
   spec.authors       = ['Frank Macreery']
   spec.email         = ['frank@macreery.com']
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.description   = 'Ruby client for auth.aptible.com'
+  spec.summary       = 'Ruby client for auth.aptible.com'
   spec.homepage      = 'https://github.com/aptible/aptible-auth'
   spec.license       = 'MIT'
 

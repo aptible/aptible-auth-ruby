@@ -1,16 +1,18 @@
 # ![](https://raw.github.com/aptible/straptible/master/lib/straptible/rails/templates/public.api/icon-72-cropped.png) Aptible::Auth
 
-[![Gem Version](https://badge.fury.io/rb/aptible-auth.png)](https://rubygems.org/gems/aptible-auth)
-[![Build Status](https://travis-ci.org/aptible/aptible-auth.png?branch=master)](https://travis-ci.org/aptible/aptible-auth)
-[![Dependency Status](https://gemnasium.com/aptible/aptible-auth.png)](https://gemnasium.com/aptible/aptible-auth)
+[![Gem Version](https://badge.fury.io/rb/aptible-auth-ruby.png)](https://rubygems.org/gems/aptible-auth-ruby)
+[![Build Status](https://travis-ci.org/aptible/aptible-auth-ruby.png?branch=master)](https://travis-ci.org/aptible/aptible-auth-ruby)
+[![Dependency Status](https://gemnasium.com/aptible/aptible-auth-ruby.png)](https://gemnasium.com/aptible/aptible-auth-ruby)
 
-TODO: Add description.
+Ruby client for [auth.aptible.com](https://auth.aptible.com/). Since Aptible's authorization service is built on OAuth 2.0, most developers should be able to implement a client using just the [oauth2](https://github.com/intridea/oauth2) gem.
+
+However, due to the complexity of OAuth 2.0 and the fact that it is a fragmented and evolving standard, we provide this gem as a standard Ruby client library. All of our internal services use it, and so it can be expected to work.
 
 ## Installation
 
 Add the following line to your application's Gemfile.
 
-    gem aptible-auth
+    gem 'aptible-auth'
 
 And then run `bundle install`.
 
