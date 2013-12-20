@@ -1,4 +1,4 @@
-# ![](https://raw.github.com/aptible/straptible/master/lib/straptible/rails/templates/public.api/icon-72-cropped.png) Aptible::Auth
+# ![](https://raw.github.com/aptible/straptible/master/lib/straptible/rails/templates/public.api/icon-60px.png) Aptible::Auth
 
 [![Gem Version](https://badge.fury.io/rb/aptible-auth-ruby.png)](https://rubygems.org/gems/aptible-auth-ruby)
 [![Build Status](https://travis-ci.org/aptible/aptible-auth-ruby.png?branch=master)](https://travis-ci.org/aptible/aptible-auth-ruby)
