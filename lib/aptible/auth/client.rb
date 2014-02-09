@@ -1,12 +1,27 @@
-require 'oauth2'
-require 'aptible/auth/strategy/pubkey'
+require 'hyperresource'
 
 module Aptible
   module Auth
-    class Client < OAuth2::Client
-      # The Pubkey Strategy (Aptible-custom)
-      def pubkey
-        @pubkey ||= Aptible::Auth::Strategy::Pubkey.new(self)
+    class Client < HyperResource
+      attr_accessor :token, :config
+
+      def initialize(options = {})
+        unless options.is_a?(Hash)
+          fail ArgumentError, 'Call Aptible::Auth::Client.new with a Hash'
+        end
+        @token = options[:token]
+
+        options[:root] ||= config.root_url
+        options[:headers] ||= { 'Content-Type' => 'application/json' }
+        options[:headers].merge!(
+          'Authorization' => "Bearer #{options[:token].access_token}"
+        ) if options[:token]
+
+        super(options)
+      end
+
+      def config
+        @config ||= Aptible::Auth.configuration
       end
     end
   end
