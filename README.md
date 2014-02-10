@@ -12,8 +12,11 @@ Add the following lines to your application's Gemfile.
 
     gem 'aptible-auth'
     gem 'oauth2', github: 'fancyremarker/oauth2', branch: 'aptible'
+    gem 'hyperresource', github: 'fancyremarker/hyperresource', branch: 'aptible'
 
 The forked version of the OAuth2 gem is necessary until [intridea/oauth2#165](https://github.com/intridea/oauth2/pull/165) and [intridea/oauth2#166](https://github.com/intridea/oauth2/pull/166) are merged.
+
+The forked version of the HyperResource gem is necessary until [gamache/hyperresource#19](https://github.com/gamache/hyperresource/pull/19) is merged.
 
 And then run `bundle install`.
 
@@ -33,12 +36,11 @@ auth = Aptible::Auth::Client.new(token: token)
 From here, you can interact with the Authorization API however you wish:
 
 ```ruby
-auth.get
-auth.clients.count
+auth.get.clients.count
 # => 4
-auth.clients.first.name
+auth.get.clients.first.name
 # => "Client 0"
-client = auth.clients.create(name: 'Dogeclient')
+client = auth.get.clients.create(name: 'Dogeclient')
 client.href
 # => "http://localhost:4000/clients/60765b69-ffd8-4762-b9d2-96354ddb16f9"
 ```
