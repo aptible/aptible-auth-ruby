@@ -1,4 +1,5 @@
 require 'hyperresource'
+require 'fridge'
 
 module Aptible
   module Auth
