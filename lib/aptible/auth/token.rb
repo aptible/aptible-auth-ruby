@@ -23,7 +23,10 @@ module Aptible
 
       def authenticate_client(id, secret, user, options = {})
         options[:scope] ||= 'manage'
-        response = client.assertion.get_token(id, secret, user, options)
+        response = client.assertion.get_token({
+          iss: id,
+          sub: user
+        }.merge(signing_params_from_secret(secret).merge(options)))
         parse_oauth_response(response)
       end
 
@@ -44,6 +47,32 @@ module Aptible
         @access_token = response.token
         @refresh_token = response.refresh_token
         @expires_at = Time.at(response.expires_at)
+      end
+
+      def signing_params_from_secret(secret)
+        private_key = parse_private_key(secret)
+        {
+          private_key: private_key,
+          algorithm:  "RS#{key_length(private_key) / 2}"
+        }
+      end
+
+      def parse_private_key(string)
+        if string =~ /\A-----/
+          OpenSSL::PKey::RSA.new(string)
+        else
+          formatted_string = <<PRIVATE_KEY
+-----BEGIN RSA PRIVATE KEY-----
+#{string.scan(/.{1,64}/).join("\n")}
+-----END RSA PRIVATE KEY-----
+PRIVATE_KEY
+          OpenSSL::PKey::RSA.new(formatted_string)
+        end
+      end
+
+      def key_length(private_key)
+        # http://stackoverflow.com/questions/13747212
+        private_key.n.num_bytes * 8
       end
     end
   end

@@ -60,18 +60,30 @@ describe Aptible::Auth::Token do
   describe '#authenticate_client' do
     let(:args) { %w(id secret user@example.com) }
 
+    before do
+      subject.stub(:signing_params_from_secret) { { algorithm: 'foobar' } }
+    end
     before { subject.stub(:client) { client } }
     before { client.stub_chain(:assertion, :get_token) { response } }
 
     it 'should use the assertion strategy' do
-      params = { scope: 'manage' }
-      expect(client.assertion).to receive(:get_token).with(*(args + [params]))
+      expect(client.assertion).to receive(:get_token).with(
+        iss: 'id',
+        sub: 'user@example.com',
+        algorithm: 'foobar',
+        scope: 'manage'
+      )
       subject.authenticate_client(*args)
     end
 
     it 'should allow the token scope to be specified' do
       args << { scope: 'read' }
-      expect(client.assertion).to receive(:get_token).with(*args)
+      expect(client.assertion).to receive(:get_token).with(
+        iss: 'id',
+        sub: 'user@example.com',
+        algorithm: 'foobar',
+        scope: 'read'
+      )
       subject.authenticate_client(*args)
     end
 
@@ -79,6 +91,32 @@ describe Aptible::Auth::Token do
       client.stub_chain(:assertion, :get_token, :token) { 'access_token' }
       subject.authenticate_client(*args)
       expect(subject.access_token).to eq 'access_token'
+    end
+  end
+
+  describe '#signing_params_from_secret' do
+    let(:private_key_string) { OpenSSL::PKey::RSA.new(512).to_s }
+
+    subject do
+      lambda do |secret|
+        described_class.new.send(:signing_params_from_secret, secret)
+      end
+    end
+
+    it 'should return a correct :algorithm' do
+      params = subject.call(private_key_string)
+      expect(params[:algorithm]).to eq 'RS256'
+    end
+
+    it 'should return a correct :private_key for header/footer keys' do
+      params = subject.call(private_key_string)
+      expect(params[:private_key]).to be_a OpenSSL::PKey::RSA
+    end
+
+    it 'should return a correct :private_key for Base64-only keys' do
+      stripped_key = private_key_string.gsub(/^-.*-$/, '').gsub("\n", '')
+      params = subject.call(stripped_key)
+      expect(params[:private_key]).to be_a OpenSSL::PKey::RSA
     end
   end
 end
