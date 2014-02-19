@@ -49,9 +49,9 @@ client.href
 
 | Parameter | Description | Default |
 | --------- | ----------- | --------------- |
-| `root_url` | Root URL of the authorization server | `https://auth.aptible.com` |
+| `root_url` | Root URL of the authorization server | `ENV['APTIBLE_AUTH_ROOT_URL']` or [https://auth.aptible.com](https://auth.aptible.com) |
 
-To point the client at a different authorization server (e.g., during development), add the following to your application's initializers:
+To point the client at a different authorization server (e.g., during development), add the following to your application's initializers (or set the `APTIBLE_AUTH_ROOT_URL` environment variable):
 
 ```ruby
 Aptible::Auth.configure do |config|

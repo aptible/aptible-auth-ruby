@@ -9,7 +9,9 @@ module Aptible
     include GemConfig::Base
 
     with_configuration do
-      has :root_url, classes: [String], default: 'https://auth.aptible.com'
+      has :root_url,
+          classes: [String],
+          default: ENV['APTIBLE_AUTH_ROOT_URL'] || 'https://auth.aptible.com'
     end
 
     def self.public_key
