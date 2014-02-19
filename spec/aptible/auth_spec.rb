@@ -7,6 +7,14 @@ describe Aptible::Auth do
     expect(config.root_url).to eq 'https://auth.aptible.com'
   end
 
+  pending 'uses ENV["APTIBLE_AUTH_ROOT_URL"] if defined' do
+    config = described_class.configuration
+    set_env 'APTIBLE_AUTH_ROOT_URL', 'http://foobar.com' do
+      config.reset
+      expect(config.root_url).to eq 'http://foobar.com'
+    end
+  end
+
   it 'should expose the server public key' do
     get = double 'get'
     Aptible::Auth::Client.any_instance.stub(:get) { get }

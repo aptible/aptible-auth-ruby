@@ -8,3 +8,7 @@ end
 
 # Require library up front
 require 'aptible/auth'
+
+RSpec.configure do |config|
+  config.before { Aptible::Auth.configuration.reset }
+end
