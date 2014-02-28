@@ -61,11 +61,11 @@ module Aptible
         if string =~ /\A-----/
           OpenSSL::PKey::RSA.new(string)
         else
-          formatted_string = <<PRIVATE_KEY
------BEGIN RSA PRIVATE KEY-----
-#{string.scan(/.{1,64}/).join("\n")}
------END RSA PRIVATE KEY-----
-PRIVATE_KEY
+          formatted_string = <<-PRIVATE_KEY.gsub(/^\s+/, '')
+            -----BEGIN RSA PRIVATE KEY-----
+            #{string.scan(/.{1,64}/).join("\n")}
+            -----END RSA PRIVATE KEY-----
+          PRIVATE_KEY
           OpenSSL::PKey::RSA.new(formatted_string)
         end
       end
