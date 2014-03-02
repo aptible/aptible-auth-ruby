@@ -28,9 +28,9 @@ First, get a token:
 token = Aptible::Auth::Token.new(email: 'user0@example.com', password: 'password')
 ```
 
-Then, initialize a client:
+Then, initialize a resource agent:
 ```ruby
-auth = Aptible::Auth::Client.new(token: token)
+auth = Aptible::Auth::Resource.new(token: token)
 ```
 
 From here, you can interact with the Authorization API however you wish:
