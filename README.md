@@ -16,7 +16,7 @@ Add the following lines to your application's Gemfile.
 
 The forked version of the OAuth2 gem is necessary until [intridea/oauth2#165](https://github.com/intridea/oauth2/pull/165) and [intridea/oauth2#166](https://github.com/intridea/oauth2/pull/166) are merged.
 
-The forked version of the HyperResource gem is necessary until [gamache/hyperresource#19](https://github.com/gamache/hyperresource/pull/19) is merged.
+The forked version of the HyperResource gem is necessary until [gamache/hyperresource#22](https://github.com/gamache/hyperresource/pull/22) and [gamache/hyperresource#23](https://github.com/gamache/hyperresource/pull/23) are merged.
 
 And then run `bundle install`.
 
@@ -28,9 +28,9 @@ First, get a token:
 token = Aptible::Auth::Token.new(email: 'user0@example.com', password: 'password')
 ```
 
-Then, initialize a client:
+Then, initialize a resource agent:
 ```ruby
-auth = Aptible::Auth::Client.new(token: token)
+auth = Aptible::Auth::Resource.new(token: token)
 ```
 
 From here, you can interact with the Authorization API however you wish:
