@@ -9,19 +9,19 @@ describe Aptible::Auth::Token do
   before { response.stub(:refresh_token) }
   before { response.stub(:expires_at) { Time.now.to_i } }
 
-  describe '.register' do
+  describe '.create' do
     it 'should call #authenticate_user if passed :email and :password' do
       Aptible::Auth::Token.any_instance.should_receive(
         :authenticate_user
       ).with 'user@example.com', 'foobar', {}
-      described_class.register(email: 'user@example.com', password: 'foobar')
+      described_class.create(email: 'user@example.com', password: 'foobar')
     end
 
     it 'should #authenticate_client if passed a client ID and secret' do
       Aptible::Auth::Token.any_instance.should_receive(
         :authenticate_client
       ).with 'id', 'secret', 'user@example.com', {}
-      described_class.register(
+      described_class.create(
         client_id: 'id',
         client_secret: 'secret',
         subject: 'user@example.com'

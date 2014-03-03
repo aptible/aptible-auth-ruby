@@ -1,4 +1,4 @@
 require 'spec_helper'
 
-describe Aptible::Auth::Resource do
-end
+# describe Aptible::Auth::Resource do
+# end

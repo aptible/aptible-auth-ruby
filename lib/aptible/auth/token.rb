@@ -4,9 +4,10 @@ module Aptible
   class Auth::Token < Auth::Resource
     attr_accessor :access_token, :refresh_token, :expires_at
 
-    def self.register(options)
+    def self.create(options)
       token = new
       token.process_options(options)
+      token
     end
 
     def authenticate_user(email, password, options = {})

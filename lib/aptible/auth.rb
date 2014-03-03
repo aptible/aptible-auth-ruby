@@ -18,16 +18,44 @@ module Aptible
       Resource.new.get.public_key
     end
 
-    def initialize(options = {})
-      self.token = options[:token]
+    def self.get_data_type_from_response(response)
+      return nil unless response && response.body
+      adapter.get_data_type_from_object(adapter.deserialize(response.body))
+    end
 
-      options[:root] ||= config.root_url
-      options[:headers] ||= { 'Content-Type' => 'application/json' }
-      options[:headers].merge!(
-        'Authorization' => "Bearer #{bearer_token}"
-      ) if options[:token]
+    def self.adapter
+      Aptible::Auth::Adapter
+    end
+
+    def adapter
+      self.class.adapter
+    end
+
+    def initialize(options = {})
+      if options.is_a?(Hash)
+        self.token = options[:token]
+
+        options[:root] ||= config.root_url
+        options[:namespace] ||= 'Aptible::Auth'
+        options[:headers] ||= { 'Content-Type' => 'application/json' }
+        options[:headers].merge!(
+          'Authorization' => "Bearer #{bearer_token}"
+        ) if options[:token]
+      end
 
       super(options)
+    end
+
+    def find_by_url(url)
+      fail "URL must be rooted at #{root}" unless /^#{root}/.match url
+
+      resource = dup
+      resource.href = url.gsub(/^#{root}/, '')
+      resource.get
+    end
+
+    def organizations
+      orgs
     end
 
     def bearer_token
@@ -44,6 +72,5 @@ module Aptible
   end
 end
 
+require 'aptible/auth/adapter'
 require 'aptible/auth/resource'
-require 'aptible/auth/token'
-require 'aptible/auth/user'
