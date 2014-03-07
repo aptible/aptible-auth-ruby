@@ -9,6 +9,7 @@ end
 
 require 'aptible/auth/client'
 require 'aptible/auth/membership'
+require 'aptible/auth/organization'
 require 'aptible/auth/role'
 require 'aptible/auth/session'
 require 'aptible/auth/token'

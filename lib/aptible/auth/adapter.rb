@@ -6,9 +6,7 @@ module Aptible
         return nil unless object
 
         if (type = object['type'])
-          if type == 'org'
-            'Organization'
-          elsif type.respond_to?(:camelize)
+          if type.respond_to?(:camelize)
             type.camelize
           else
             type[0].upcase + type[1..-1]

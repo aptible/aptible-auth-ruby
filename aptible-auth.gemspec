@@ -6,7 +6,7 @@ require 'English'
 
 Gem::Specification.new do |spec|
   spec.name          = 'aptible-auth'
-  spec.version       = '0.2.0'
+  spec.version       = '0.2.1'
   spec.authors       = ['Frank Macreery']
   spec.email         = ['frank@macreery.com']
   spec.description   = 'Ruby client for auth.aptible.com'
@@ -22,10 +22,10 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'oauth2'
   spec.add_dependency 'hyperresource'
   spec.add_dependency 'fridge'
-  spec.add_dependency 'activesupport'
 
   spec.add_development_dependency 'bundler', '~> 1.3'
   spec.add_development_dependency 'aptible-tasks', '>= 0.2.0'
+  spec.add_development_dependency 'activesupport'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rspec', '~> 2.0'
   spec.add_development_dependency 'pry'

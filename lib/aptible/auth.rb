@@ -54,10 +54,6 @@ module Aptible
       resource.get
     end
 
-    def organizations
-      orgs
-    end
-
     def bearer_token
       case token
       when Aptible::Auth::Token then token.access_token
