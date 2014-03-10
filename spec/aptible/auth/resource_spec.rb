@@ -11,7 +11,7 @@ describe Aptible::Auth::Resource do
   describe '.find' do
     it 'should call find_by_url' do
       url = 'https://auth.aptible.com/roles/42'
-      expect(Aptible::Auth::Role).to receive(:find_by_url).with url
+      expect(Aptible::Auth::Role).to receive(:find_by_url).with url, {}
       Aptible::Auth::Role.find(42)
     end
   end

@@ -6,7 +6,7 @@ require 'English'
 
 Gem::Specification.new do |spec|
   spec.name          = 'aptible-auth'
-  spec.version       = '0.3.2'
+  spec.version       = '0.3.3'
   spec.authors       = ['Frank Macreery']
   spec.email         = ['frank@macreery.com']
   spec.description   = 'Ruby client for auth.aptible.com'
