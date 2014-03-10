@@ -28,19 +28,13 @@ First, get a token:
 token = Aptible::Auth::Token.create(email: 'user0@example.com', password: 'password')
 ```
 
-Then, initialize a resource agent:
-```ruby
-auth = Aptible::Auth.new(token: token)
-```
-
 From here, you can interact with the Authorization API however you wish:
 
 ```ruby
-auth.get.clients.count
-# => 4
-auth.get.clients.first.name
+auth = Aptible::Auth.new(token: token)
+auth.clients.first.name
 # => "Client 0"
-client = auth.get.clients.create(name: 'Dogeclient')
+client = Aptible::Auth::Client.create(token: token, name: 'Dogeclient')
 client.href
 # => "http://localhost:4000/clients/60765b69-ffd8-4762-b9d2-96354ddb16f9"
 ```

@@ -40,4 +40,13 @@ describe Aptible::Auth::Resource do
       Aptible::Auth::Session.all(options)
     end
   end
+
+  describe '.create' do
+    it 'should create a new top-level resource' do
+      sessions = double Aptible::Auth
+      Aptible::Auth.stub_chain(:new, :sessions) { sessions }
+      expect(sessions).to receive(:create).with(foo: 'bar')
+      Aptible::Auth::Session.create(foo: 'bar')
+    end
+  end
 end
