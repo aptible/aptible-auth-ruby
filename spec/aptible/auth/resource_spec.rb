@@ -15,4 +15,29 @@ describe Aptible::Auth::Resource do
       Aptible::Auth::Role.find(42)
     end
   end
+
+  describe '.all' do
+    let(:session) { double Aptible::Auth::Session }
+    let(:collection) { double Aptible::Auth }
+
+    before do
+      collection.stub(:sessions) { [session] }
+      Aptible::Auth::Session.any_instance.stub(:find_by_url) { collection }
+    end
+
+    it 'should be an array' do
+      expect(Aptible::Auth::Session.all).to be_a Array
+    end
+
+    it 'should return the root collection' do
+      expect(Aptible::Auth::Session.all).to eq [session]
+    end
+
+    it 'should pass options to the HyperResource initializer' do
+      klass = Aptible::Auth::Session
+      options = { token: 'token' }
+      expect(klass).to receive(:new).with(options).and_return klass.new
+      Aptible::Auth::Session.all(options)
+    end
+  end
 end
