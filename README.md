@@ -25,12 +25,12 @@ The forked version of the HyperResource gem is necessary until [gamache/hyperres
 First, get a token:
 
 ```ruby
-token = Aptible::Auth::Token.new(email: 'user0@example.com', password: 'password')
+token = Aptible::Auth::Token.create(email: 'user0@example.com', password: 'password')
 ```
 
 Then, initialize a resource agent:
 ```ruby
-auth = Aptible::Auth::Resource.new(token: token)
+auth = Aptible::Auth.new(token: token)
 ```
 
 From here, you can interact with the Authorization API however you wish:
