@@ -1,5 +1,6 @@
 require 'active_support/inflector'
 
+# rubocop:disable ClassAndModuleChildren
 module Aptible
   class Auth::Resource < Auth
     def self.basename

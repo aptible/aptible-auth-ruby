@@ -1,3 +1,4 @@
+# rubocop:disable ClassAndModuleChildren
 module Aptible
   class Auth::Organization < Auth::Resource
     has_many :roles

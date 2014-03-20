@@ -1,5 +1,6 @@
 require 'oauth2'
 
+# rubocop:disable ClassAndModuleChildren
 module Aptible
   class Auth::Token < Auth::Resource
     attr_accessor :access_token, :refresh_token, :expires_at
