@@ -73,8 +73,6 @@ module Aptible
       self.class.find_by_url(href, headers: headers)
     end
 
-    private
-
     def self.define_has_many_getter(relation)
       define_method relation do
         get unless loaded
