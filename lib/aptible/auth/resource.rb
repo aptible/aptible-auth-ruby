@@ -33,10 +33,10 @@ module Aptible
       end
     end
 
-    def self.create(options)
-      token = options.delete(:token)
+    def self.create(params)
+      token = params.delete(:token)
       auth = Auth.new(token: token)
-      auth.send(basename).create(options)
+      auth.send(basename).create(normalize_params(params))
     end
 
     # rubocop:disable PredicateName
@@ -57,6 +57,22 @@ module Aptible
       end
     end
 
+    def self.normalize_params(params = {})
+      params_array = params.map do |key, value|
+        value.is_a?(HyperResource) ? [key, value.href] : [key, value]
+      end
+      Hash[params_array]
+    end
+
+    def update(params = {})
+      super(self.class.normalize_params(params))
+    end
+
+    # NOTE: The following does not update the object in-place
+    def reload
+      self.class.find_by_url(href, headers: headers)
+    end
+
     private
 
     def self.define_has_many_getter(relation)
@@ -71,9 +87,9 @@ module Aptible
     end
 
     def self.define_has_many_setter(relation)
-      define_method "create_#{relation.to_s.singularize}" do |options = {}|
+      define_method "create_#{relation.to_s.singularize}" do |params = {}|
         get unless loaded
-        links[relation].create(options)
+        links[relation].create(self.class.normalize_params(params))
       end
     end
   end
