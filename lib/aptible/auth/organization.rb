@@ -12,9 +12,9 @@ module Aptible
       end
 
       def accounts
-        api = Aptible::Api.new(token: token, headers: headers)
-        api.get unless api.loaded
-        accounts = api.accounts.entries
+        require 'aptible/api'
+
+        accounts = Aptible::Api::Account.all(token: token, headers: headers)
         accounts.select { |account| account.organization.href == href }
       end
     end
