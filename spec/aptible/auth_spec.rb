@@ -21,13 +21,4 @@ describe Aptible::Auth do
     Aptible::Auth::Agent.any_instance.should_receive :public_key
     Aptible::Auth.public_key
   end
-
-  describe '#bearer_token' do
-    it 'should accept an Aptible::Auth::Token' do
-      token = Aptible::Auth::Token.new
-      token.stub(:access_token) { 'aptible_auth_token' }
-      subject.stub(:token) { token }
-      expect(subject.bearer_token).to eq token.access_token
-    end
-  end
 end
