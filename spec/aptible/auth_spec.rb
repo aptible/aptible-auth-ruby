@@ -18,9 +18,7 @@ describe Aptible::Auth do
   end
 
   it 'should expose the server public key' do
-    get = double 'get'
-    Aptible::Auth::Agent.any_instance.stub(:get) { get }
-    expect(get).to receive :public_key
+    Aptible::Auth::Agent.any_instance.should_receive :public_key
     Aptible::Auth.public_key
   end
 
