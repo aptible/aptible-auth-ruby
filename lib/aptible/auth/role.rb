@@ -1,10 +1,11 @@
-# rubocop:disable ClassAndModuleChildren
 module Aptible
-  class Auth::Role < Auth::Resource
-    belongs_to :organization
+  module Auth
+    class Role < Resource
+      belongs_to :organization
 
-    def privileged?
-      !!attributes['privileged']
+      def privileged?
+        !!attributes['privileged']
+      end
     end
   end
 end

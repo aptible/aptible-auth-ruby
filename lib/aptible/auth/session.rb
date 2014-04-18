@@ -1,6 +1,7 @@
-# rubocop:disable ClassAndModuleChildren
 module Aptible
-  class Auth::Session < Auth::Resource
-    belongs_to :user
+  module Auth
+    class Session < Resource
+      belongs_to :user
+    end
   end
 end
