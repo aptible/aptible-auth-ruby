@@ -3,9 +3,14 @@ module Aptible
     class User < Resource
       has_many :roles
 
-      def verified?
-        !!attributes['verified']
-      end
+      field :id
+      field :name
+      field :email
+      field :username
+      field :verified, type: Aptible::Resource::Boolean
+      field :public_key_fingerprint
+      field :created_at, type: Time
+      field :updated_at, type: Time
 
       def organizations
         roles.map(&:organization)

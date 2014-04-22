@@ -3,6 +3,12 @@ module Aptible
     class Organization < Resource
       has_many :roles
 
+      field :id
+      field :name
+      field :handle
+      field :created_at, type: Time
+      field :updated_at, type: Time
+
       def security_officer
         # REVIEW: Examine underlying data model for a less arbitrary solution
         security_officers_role = roles.find do |role|
