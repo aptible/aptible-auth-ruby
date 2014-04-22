@@ -3,9 +3,11 @@ module Aptible
     class Role < Resource
       belongs_to :organization
 
-      def privileged?
-        !!attributes['privileged']
-      end
+      field :id
+      field :name
+      field :privileged, type: Aptible::Resource::Boolean
+      field :created_at, type: Time
+      field :updated_at, type: Time
     end
   end
 end
