@@ -2,12 +2,19 @@ module Aptible
   module Auth
     class Organization < Resource
       has_many :roles
+      has_many :users
 
       field :id
       field :name
       field :handle
       field :created_at, type: Time
       field :updated_at, type: Time
+      field :primary_phone
+      field :emergency_phone
+      field :city
+      field :state
+      field :zip
+      field :address
 
       def security_officer
         # REVIEW: Examine underlying data model for a less arbitrary solution

@@ -1,6 +1,6 @@
-def set_env(*args, &block)
+def set_env(*args, _block)
   hash = args.first.is_a?(Hash) ? args.first : Hash[*args]
-  old_values = Hash[hash.map { |k, v| [k, ENV[k]] }]
+  old_values = Hash[hash.map { |k, _| [k, ENV[k]] }]
   begin
     hash.each { |k, v| ENV[k] = v }
     yield
