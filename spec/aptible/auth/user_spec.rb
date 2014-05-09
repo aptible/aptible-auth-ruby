@@ -8,9 +8,7 @@ describe Aptible::Auth::User do
 
     before do
       org.stub(:id) { 1 }
-      so.stub(:name) { 'Security Officers' }
       so.stub(:organization) { org }
-      owner.stub(:name) { 'Owners' }
       owner.stub(:organization) { org }
     end
 
