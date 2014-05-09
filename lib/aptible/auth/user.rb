@@ -13,7 +13,7 @@ module Aptible
       field :updated_at, type: Time
 
       def organizations
-        roles.map(&:organization)
+        roles.map(&:organization).uniq(&:id)
       end
 
       def operations
