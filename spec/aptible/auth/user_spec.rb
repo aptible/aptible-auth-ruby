@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'pry'
 
 describe Aptible::Auth::User do
   describe '#organizations' do
