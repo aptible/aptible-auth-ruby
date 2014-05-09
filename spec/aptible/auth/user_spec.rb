@@ -7,13 +7,13 @@ describe Aptible::Auth::User do
     let(:owner) { double 'Aptible::Auth::Role' }
     let(:org) { double 'Aptible::Auth::Organization' }
 
-    before {
+    before do
       org.stub(:id) { 1 }
       so.stub(:name) { 'Security Officers' }
       so.stub(:organization) { org }
       owner.stub(:name) { 'Owners' }
       owner.stub(:organization) { org }
-    }
+    end
 
     it 'should return empty if no organizations' do
       subject.stub(:roles) { [] }
