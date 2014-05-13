@@ -29,9 +29,11 @@ module Aptible
         @privileged_roles ||= roles.select(&:privileged?)
       end
 
-      def role?(role)
+      # rubocop:disable PredicateName
+      def has_role?(role)
         roles.select { |user_role| role.id == user_role.id }.count > 0
       end
+      # rubocop:enable PredicateName
     end
   end
 end
