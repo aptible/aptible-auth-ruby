@@ -2,6 +2,7 @@ module Aptible
   module Auth
     class Role < Resource
       belongs_to :organization
+      has_many :memberships
 
       field :id
       field :name
