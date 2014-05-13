@@ -28,6 +28,11 @@ module Aptible
       def privileged_roles
         @privileged_roles ||= roles.select(&:privileged?)
       end
+
+      def role?(role)
+        roles.select { |user_role| role.id == user_role.id }.count > 0
+      end
+
     end
   end
 end
