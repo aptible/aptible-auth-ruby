@@ -23,4 +23,20 @@ describe Aptible::Auth::User do
     end
 
   end
+  describe '#roles' do
+
+    let(:so) { double 'Aptible::Auth::Role' }
+    let(:owner) { double 'Aptible::Auth::Role' }
+
+    before do
+      so.stub(:id) { 1 }
+      owner.stub(:id) { 2 }
+    end
+
+    it 'should have role' do
+      subject.stub(:roles) { [so] }
+      expect(subject.has_role?(so)).to eq true
+      expect(subject.has_role?(owner)).to eq false
+    end
+  end
 end
