@@ -35,8 +35,8 @@ describe Aptible::Auth::User do
 
     it 'should have role' do
       subject.stub(:roles) { [so] }
-      expect(subject.role?(so)).to eq true
-      expect(subject.role?(owner)).to eq false
+      expect(subject.has_role?(so)).to eq true
+      expect(subject.has_role?(owner)).to eq false
     end
   end
 end
