@@ -39,4 +39,75 @@ describe Aptible::Auth::User do
       expect(subject.has_role?(owner)).to eq false
     end
   end
+
+  describe '#set_org_role_memberships' do
+
+    let(:so) { double 'Aptible::Auth::Role' }
+    let(:owner) { double 'Aptible::Auth::Role' }
+    let(:org) { double 'Aptible::Auth::Organization' }
+    let(:owner_membership) { double 'Aptible::Auth::Membership' }
+    let(:so_membership) { double 'Aptible::Auth::Membership' }
+
+    before do
+      org.stub(:id) { 1 }
+
+      so.stub(:organization) { org }
+      so.stub(:id) { 1 }
+
+      owner.stub(:organization) { org }
+      owner.stub(:id) { 2 }
+
+      allow(Aptible::Auth::Role).to receive(:find)
+        .with(1, token: 'token').and_return(so)
+      allow(Aptible::Auth::Role).to receive(:find)
+        .with(2, token: 'token').and_return(owner)
+    end
+
+    it 'should overwrite existing memberships' do
+      subject.stub(:roles) { [so] }
+      subject.stub(:token) { 'token' }
+      subject.stub(:headers) { {} }
+      so_membership.stub(:user) { subject }
+      so_membership.stub(:role) { so }
+      so.stub(:memberships) { [so_membership] }
+      owner.stub(:memberships) { [] }
+
+      expect(so_membership).to receive(:destroy)
+      expect(owner).to receive(:create_membership)
+        .with(user: subject, token: 'token')
+
+      subject.set_org_role_memberships(org, [2])
+    end
+
+    it 'should create new memberships' do
+      subject.stub(:roles) { [] }
+      subject.stub(:token) { 'token' }
+      subject.stub(:headers) { {} }
+      so.stub(:memberships) { [] }
+      owner.stub(:memberships) { [] }
+
+      expect(so).to receive(:create_membership)
+        .with(user: subject, token: 'token')
+      expect(owner).to receive(:create_membership)
+        .with(user: subject, token: 'token')
+
+      subject.set_org_role_memberships(org, [1, 2])
+    end
+
+    it 'should delete all existing memberships' do
+      subject.stub(:roles) { [so, owner] }
+      so.stub(:memberships) { [so_membership] }
+      owner.stub(:memberships) { [owner_membership] }
+      so_membership.stub(:user) { subject }
+      so_membership.stub(:role) { so }
+      owner_membership.stub(:user) { subject }
+      owner_membership.stub(:role) { owner }
+
+      expect(so_membership).to receive(:destroy)
+      expect(owner_membership).to receive(:destroy)
+
+      subject.set_org_role_memberships(org, [])
+    end
+
+  end
 end
