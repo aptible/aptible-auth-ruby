@@ -1,5 +1,3 @@
-require 'pry'
-
 module Aptible
   module Auth
     class User < Resource
