@@ -40,7 +40,7 @@ describe Aptible::Auth::User do
     end
   end
 
-  describe '#set_org_role_memberships' do
+  describe '#set_organization_roles' do
 
     let(:so) { double 'Aptible::Auth::Role' }
     let(:owner) { double 'Aptible::Auth::Role' }
@@ -76,7 +76,7 @@ describe Aptible::Auth::User do
       expect(owner).to receive(:create_membership)
         .with(user: subject, token: 'token')
 
-      subject.set_org_role_memberships(org, [2])
+      subject.set_organization_roles(org, [owner])
     end
 
     it 'should create new memberships' do
@@ -91,7 +91,7 @@ describe Aptible::Auth::User do
       expect(owner).to receive(:create_membership)
         .with(user: subject, token: 'token')
 
-      subject.set_org_role_memberships(org, [1, 2])
+      subject.set_organization_roles(org, [so, owner])
     end
 
     it 'should delete all existing memberships' do
@@ -106,7 +106,7 @@ describe Aptible::Auth::User do
       expect(so_membership).to receive(:destroy)
       expect(owner_membership).to receive(:destroy)
 
-      subject.set_org_role_memberships(org, [])
+      subject.set_organization_roles(org, [])
     end
 
   end
