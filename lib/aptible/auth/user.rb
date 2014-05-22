@@ -53,6 +53,10 @@ module Aptible
       end
       # rubocop:enable PredicateName
 
+      def can_manage?(organization)
+        privileged_organizations.map(&:id).include? organization.id
+      end
+
       def add_to_roles(roles)
         roles.each { |role| add_to_role(role) }
       end
