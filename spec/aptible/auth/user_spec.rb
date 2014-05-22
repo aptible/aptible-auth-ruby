@@ -1,6 +1,35 @@
 require 'spec_helper'
 
 describe Aptible::Auth::User do
+  describe '#can_manage?' do
+    let(:developer) { double 'Aptible::Auth::Role' }
+    let(:owner) { double 'Aptible::Auth::Role' }
+    let(:org) { double 'Aptible::Auth::Organization' }
+
+    before do
+      org.stub(:id) { 1 }
+      developer.stub(:organization) { org }
+      allow(developer).to receive(:privileged?).and_return(false)
+      owner.stub(:organization) { org }
+      allow(owner).to receive(:privileged?).and_return(true)
+    end
+
+    it 'should return false if not member of org privileged role' do
+      subject.stub(:roles) { [developer] }
+      expect(subject.can_manage?(org)).to eq false
+    end
+
+    it 'should return true if member of org privileged role' do
+      subject.stub(:roles) { [developer, owner] }
+      expect(subject.can_manage?(org)).to eq true
+    end
+
+    it 'should return false if member of no roles' do
+      subject.stub(:roles) { [] }
+      expect(subject.can_manage?(org)).to eq false
+    end
+  end
+
   describe '#organizations' do
     let(:so) { double 'Aptible::Auth::Role' }
     let(:owner) { double 'Aptible::Auth::Role' }

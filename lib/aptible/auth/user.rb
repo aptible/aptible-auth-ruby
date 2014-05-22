@@ -15,15 +15,14 @@ module Aptible
       # rubocop:disable MethodLength
       def set_organization_roles(organization, roles)
         self.roles.each do |role|
-          if role.organization.id == organization.id
-            unless roles.map(&:id).include? role.id
-              role_membership = role.memberships.find do |membership|
-                membership.user.id == id
-              end
+          next unless role.organization.id == organization.id
+          next if roles.map(&:id).include? role.id
 
-              role_membership.destroy
-            end
+          role_membership = role.memberships.find do |membership|
+            membership.user.id == id
           end
+
+          role_membership.destroy
         end
 
         add_to_roles(roles)
@@ -52,6 +51,10 @@ module Aptible
         roles.select { |user_role| role.id == user_role.id }.count > 0
       end
       # rubocop:enable PredicateName
+
+      def can_manage?(organization)
+        privileged_organizations.map(&:id).include? organization.id
+      end
 
       def add_to_roles(roles)
         roles.each { |role| add_to_role(role) }
