@@ -15,6 +15,7 @@ module Aptible
       field :state
       field :zip
       field :address
+      field :stripe_customer_id
 
       def security_officer
         # REVIEW: Examine underlying data model for a less arbitrary solution
