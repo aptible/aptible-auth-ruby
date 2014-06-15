@@ -1,3 +1,5 @@
+require 'stripe'
+
 module Aptible
   module Auth
     class Organization < Resource
@@ -16,6 +18,11 @@ module Aptible
       field :zip
       field :address
       field :stripe_customer_id
+
+      def stripe_customer
+        return if stripe_customer_id.nil?
+        @stripe_customer ||= Stripe::Customer.retrieve(stripe_customer_id)
+      end
 
       def security_officer
         # REVIEW: Examine underlying data model for a less arbitrary solution
