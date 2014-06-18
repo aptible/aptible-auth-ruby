@@ -47,6 +47,10 @@ module Aptible
       end
 
       # rubocop:disable PredicateName
+      def is_billing_contact?(organization)
+        organization.billing_contact && organization.billing_contact.id == id
+      end
+
       def has_role?(role)
         roles.select { |user_role| role.id == user_role.id }.count > 0
       end
