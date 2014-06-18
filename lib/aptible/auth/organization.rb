@@ -24,6 +24,15 @@ module Aptible
         @stripe_customer ||= Stripe::Customer.retrieve(stripe_customer_id)
       end
 
+      def billing_contact
+        return nil unless stripe_customer.metadata['billing_contact']
+
+        @billing_contact ||=
+        User.find_by_url(
+          stripe_customer.metadata['billing_contact'],
+          token: token)
+      end
+
       def security_officer
         # REVIEW: Examine underlying data model for a less arbitrary solution
         security_officers_role = roles.find do |role|
