@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['frank@macreery.com']
   spec.description   = 'Ruby client for auth.aptible.com'
   spec.summary       = 'Ruby client for auth.aptible.com'
-  spec.homepage      = 'https://github.com/aptible/aptible-auth'
+  spec.homepage      = 'https://github.com/aptible/aptible-auth-ruby'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files`.split($RS)

@@ -14,11 +14,7 @@ Add the following line to your application's Gemfile.
 
 And then run `bundle install`.
 
-The gem depends on forked releases of the `oauth2` and `hyperresource` gems.
-
-The forked version of the OAuth2 gem is necessary until [intridea/oauth2#165](https://github.com/intridea/oauth2/pull/165) and [intridea/oauth2#166](https://github.com/intridea/oauth2/pull/166) are merged.
-
-The forked version of the HyperResource gem is necessary until [gamache/hyperresource#22](https://github.com/gamache/hyperresource/pull/22) and [gamache/hyperresource#23](https://github.com/gamache/hyperresource/pull/23) are merged.
+A forked version of the OAuth2 gem is necessary until [intridea/oauth2#165](https://github.com/intridea/oauth2/pull/165) and [intridea/oauth2#166](https://github.com/intridea/oauth2/pull/166) are merged.
 
 ## Usage
 
