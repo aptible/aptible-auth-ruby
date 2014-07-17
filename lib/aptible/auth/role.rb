@@ -9,6 +9,10 @@ module Aptible
       field :privileged, type: Aptible::Resource::Boolean
       field :created_at, type: Time
       field :updated_at, type: Time
+
+      def users
+        @users ||= memberships.map(&:users).uniq
+      end
     end
   end
 end
