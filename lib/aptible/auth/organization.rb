@@ -45,7 +45,9 @@ module Aptible
         require 'aptible/api'
 
         accounts = Aptible::Api::Account.all(token: token, headers: headers)
-        accounts.select { |account| account.organization.href == href }
+        accounts.select do |account|
+          (link = account.links[:organization]) && link.href == href
+        end
       end
     end
   end
