@@ -18,19 +18,31 @@ module Aptible
       field :zip
       field :address
       field :stripe_customer_id
+      field :stripe_subscription_id
+      field :stripe_subscription_status
+      field :plan
 
       def stripe_customer
-        return if stripe_customer_id.nil?
+        return nil if stripe_customer_id.nil?
         @stripe_customer ||= Stripe::Customer.retrieve(stripe_customer_id)
+      end
+
+      def subscription
+        return nil if stripe_subscription_id.nil?
+        subscriptions = stripe_customer.subscriptions
+        @subscription ||= subscriptions.retrieve(stripe_subscription_id)
+      end
+
+      def subscribed?
+        !!stripe_subscription_id
       end
 
       def billing_contact
         return nil unless stripe_customer.metadata['billing_contact']
 
-        @billing_contact ||=
-        User.find_by_url(
-          stripe_customer.metadata['billing_contact'],
-          token: token)
+        @billing_contact ||= User.find_by_url(
+          stripe_customer.metadata['billing_contact'], token: token
+        )
       end
 
       def security_officer
