@@ -11,7 +11,7 @@ module Aptible
       field :updated_at, type: Time
 
       def users
-        @users ||= memberships.map(&:users).uniq
+        @users ||= memberships.map(&:user).uniq
       end
     end
   end
