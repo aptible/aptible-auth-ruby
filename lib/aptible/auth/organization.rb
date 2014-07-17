@@ -38,7 +38,7 @@ module Aptible
         security_officers_role = roles.find do |role|
           role.name == 'Security Officers'
         end
-        security_officers_role.users.first if security_officers_role
+        security_officers_role.memberships.first.user if security_officers_role
       end
 
       def accounts
