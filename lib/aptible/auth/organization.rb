@@ -24,6 +24,10 @@ module Aptible
         @stripe_customer ||= Stripe::Customer.retrieve(stripe_customer_id)
       end
 
+      def can_manage_compliance?
+        accounts.map(&:type).include? 'production'
+      end
+
       def billing_contact
         return nil unless stripe_customer.metadata['billing_contact']
 
