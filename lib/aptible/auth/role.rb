@@ -3,6 +3,7 @@ module Aptible
     class Role < Resource
       belongs_to :organization
       has_many :memberships
+      has_many :invitations
 
       field :id
       field :name

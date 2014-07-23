@@ -15,6 +15,7 @@ module Aptible
 end
 
 require 'aptible/auth/client'
+require 'aptible/auth/invitation'
 require 'aptible/auth/membership'
 require 'aptible/auth/organization'
 require 'aptible/auth/role'
