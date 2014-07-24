@@ -29,6 +29,7 @@ module Aptible
       end
 
       def billing_contact
+        return nil unless stripe_customer
         return nil unless stripe_customer.metadata['billing_contact']
 
         @billing_contact ||=
