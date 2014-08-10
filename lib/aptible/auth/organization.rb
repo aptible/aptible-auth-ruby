@@ -18,11 +18,27 @@ module Aptible
       field :zip
       field :address
       field :stripe_customer_id
+      field :stripe_subscription_id
+      field :stripe_subscription_status
+      field :plan
+
+      def subscription
+        return nil if stripe_subscription_id.nil?
+        @subscription ||= stripe_customer
+                          .subscriptions
+                          .retrieve(stripe_subscription_id)
+      end
 
       def stripe_customer
-        return if stripe_customer_id.nil?
+        return nil if stripe_customer_id.nil?
         @stripe_customer ||= Stripe::Customer.retrieve(stripe_customer_id)
       end
+
+      # rubocop:disable PredicateName
+      def has_subscription?
+        !stripe_subscription_id.nil?
+      end
+      # rubocop:enable PredicateName
 
       def can_manage_compliance?
         accounts.map(&:type).include? 'production'
