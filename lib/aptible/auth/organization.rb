@@ -18,6 +18,9 @@ module Aptible
       field :zip
       field :address
       field :stripe_customer_id
+      field :stripe_subscription_id
+      field :stripe_subscription_status
+      field :plan
 
       def stripe_customer
         return if stripe_customer_id.nil?
@@ -25,6 +28,8 @@ module Aptible
       end
 
       def can_manage_compliance?
+        # TODO: Refactor once Stripe migration from accounts is complete
+        return false if %w(development platform).include?(plan)
         accounts.map(&:type).include? 'production'
       end
 
