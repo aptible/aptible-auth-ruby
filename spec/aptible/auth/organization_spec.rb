@@ -1,24 +1,6 @@
 require 'spec_helper'
 
 describe Aptible::Auth::Organization do
-  describe '#can_manage_compliance?' do
-    let(:production) { double 'Aptible::Auth::Resource' }
-    let(:development) { double 'Aptible::Auth::Resource' }
-
-    before { production.stub(:type) { 'production' } }
-    before { development.stub(:type) { 'development' } }
-
-    it 'should return true with a production account' do
-      subject.stub(:accounts) { [development] }
-      expect(subject.can_manage_compliance?).to eq false
-    end
-
-    it 'should return false without a production account' do
-      subject.stub(:accounts) { [development, production] }
-      expect(subject.can_manage_compliance?).to eq true
-    end
-  end
-
   describe '#security_officer' do
     let(:role) { double 'Aptible::Auth::Role' }
     let(:user) { double 'Aptible::Auth::User' }
@@ -34,6 +16,29 @@ describe Aptible::Auth::Organization do
     it 'should return nil if there is no such role' do
       subject.stub(:roles) { [] }
       expect(subject.security_officer).to be_nil
+    end
+  end
+
+  describe '#can_manage_compliance?' do
+    it 'should return true with compliance plan' do
+      subject.stub(:plan) { 'production' }
+      expect(subject.can_manage_compliance?).to be_true
+    end
+
+    it 'should return false without compliance plan' do
+      subject.stub(:plan) { 'platform' }
+      expect(subject.can_manage_compliance?).to be_false
+    end
+  end
+
+  describe '#subscribed?' do
+    it 'should return true with valid subscription ID' do
+      subject.stub(:stripe_subscription_id) { 'sub_4YrmiVa3vMpaGA' }
+      expect(subject.subscribed?).to be_true
+    end
+
+    it 'should return false without valid subscription ID' do
+      expect(subject.subscribed?).to be_false
     end
   end
 end
