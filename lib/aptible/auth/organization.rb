@@ -28,7 +28,7 @@ module Aptible
       end
 
       def can_manage_compliance?
-        return false if %w(development platform).include?(plan)
+        %w(production).include?(plan)
       end
 
       def subscription
