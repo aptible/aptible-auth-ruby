@@ -50,6 +50,10 @@ module Aptible
         )
       end
 
+      def can_manage_compliance?
+        plan == 'production'
+      end
+
       def security_officer
         # REVIEW: Examine underlying data model for a less arbitrary solution
         security_officers_role = roles.find do |role|
