@@ -37,14 +37,14 @@ module Aptible
       end
 
       def add_account_scope(account, scope)
-        account.create_permission!({ scope: scope, role: href })
+        account.create_permission!(scope: scope, role: href)
       end
 
       def permissions
         require 'aptible/api'
 
         permissions = Aptible::Api::Permission.all(token: token,
-                                                    headers: headers)
+                                                   headers: headers)
         permissions.select do |permission|
           (link = permission.links[:role]) && link.href == href
         end
