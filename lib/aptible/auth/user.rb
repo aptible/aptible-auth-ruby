@@ -9,6 +9,7 @@ module Aptible
       field :username
       field :verified, type: Aptible::Resource::Boolean
       field :public_key_fingerprint
+      field :ssh_public_key
       field :created_at, type: Time
       field :updated_at, type: Time
 
