@@ -49,7 +49,7 @@ module Aptible
 
       # rubocop:disable PredicateName
       def is_billing_contact?(organization)
-        organization.billing_contact && organization.billing_contact.id == id
+        organization.billing_contact_id && organization.billing_contact_id == id
       end
 
       def has_role?(role)
