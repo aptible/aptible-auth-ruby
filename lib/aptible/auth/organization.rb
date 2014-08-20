@@ -5,6 +5,8 @@ module Aptible
     class Organization < Resource
       has_many :roles
       has_many :users
+      belongs_to :security_officer
+      belongs_to :billing_contact
 
       field :id
       field :name
@@ -21,6 +23,10 @@ module Aptible
       field :stripe_subscription_id
       field :stripe_subscription_status
       field :plan
+      field :security_alert_email
+      field :ops_alert_email
+      field :security_officer_id
+      field :billing_contact_id
 
       def stripe_customer
         return nil if stripe_customer_id.nil?
@@ -39,23 +45,6 @@ module Aptible
 
       def subscribed?
         !!stripe_subscription_id
-      end
-
-      def billing_contact
-        return nil unless stripe_customer
-        return nil unless stripe_customer.metadata['billing_contact']
-
-        @billing_contact ||= User.find_by_url(
-          stripe_customer.metadata['billing_contact'], token: token
-        )
-      end
-
-      def security_officer
-        # REVIEW: Examine underlying data model for a less arbitrary solution
-        security_officers_role = roles.find do |role|
-          role.name == 'Security Officers'
-        end
-        security_officers_role.users.first if security_officers_role
       end
 
       def accounts

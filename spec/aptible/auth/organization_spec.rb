@@ -2,20 +2,20 @@ require 'spec_helper'
 
 describe Aptible::Auth::Organization do
   describe '#security_officer' do
-    let(:role) { double 'Aptible::Auth::Role' }
     let(:user) { double 'Aptible::Auth::User' }
 
-    before { role.stub(:name) { 'Security Officers' } }
-    before { role.stub(:users) { [user] } }
-
-    it 'should return the first member of the security officers role' do
-      subject.stub(:roles) { [role] }
+    it 'should return the security officer' do
+      subject.stub(:security_officer) { user }
       expect(subject.security_officer).to eq user
     end
+  end
 
-    it 'should return nil if there is no such role' do
-      subject.stub(:roles) { [] }
-      expect(subject.security_officer).to be_nil
+  describe '#billing_contact' do
+    let(:user) { double 'Aptible::Auth::User' }
+
+    it 'should return the security officer' do
+      subject.stub(:billing_contact) { user }
+      expect(subject.billing_contact).to eq user
     end
   end
 
