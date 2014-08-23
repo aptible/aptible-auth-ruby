@@ -34,6 +34,18 @@ module Aptible
         roles.map(&:organization).uniq(&:id)
       end
 
+      def organization_roles(organization)
+        roles.select do |role|
+          role.links['organization'].href == organization.href
+        end
+      end
+
+      def organization_privileged_roles(organization)
+        privileged_roles.select do |role|
+          role.links['organization'].href == organization.href
+        end
+      end
+
       def operations
         # TODO: Implement query params for /operations
         []
