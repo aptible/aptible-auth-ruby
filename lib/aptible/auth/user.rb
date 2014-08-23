@@ -36,13 +36,13 @@ module Aptible
 
       def organization_roles(organization)
         roles.select do |role|
-          role.links["organization"].href == organization.href
+          role.links['organization'].href == organization.href
         end
       end
 
       def organization_privileged_roles(organization)
         privileged_roles.select do |role|
-          role.links["organization"].href == organization.href
+          role.links['organization'].href == organization.href
         end
       end
 
