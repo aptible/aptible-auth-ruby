@@ -47,6 +47,10 @@ module Aptible
         !!stripe_subscription_id
       end
 
+      def privileged_roles
+        roles.select(&:privileged?)
+      end
+
       def accounts
         require 'aptible/api'
 
