@@ -9,5 +9,6 @@ module Aptible
       field :ssh_public_key
       field :created_at, type: Time
       field :updated_at, type: Time
+    end
   end
 end
