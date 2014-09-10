@@ -1,6 +1,6 @@
 module Aptible
   module Auth
-    class SshKey < Resource
+    class SSHKey < Resource
       belongs_to :user
 
       field :id
