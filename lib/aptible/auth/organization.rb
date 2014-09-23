@@ -32,7 +32,9 @@ module Aptible
 
       def billforward_account
         return nil if billforward_account_id.nil?
-        @billforward_account ||= Aptible::BillForward::Account.find(billforward_account_id)
+        @billforward_account ||= Aptible::BillForward::Account.find(
+          billforward_account_id
+        )
       end
 
       def stripe_customer
