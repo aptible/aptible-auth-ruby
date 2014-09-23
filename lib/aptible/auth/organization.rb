@@ -28,11 +28,11 @@ module Aptible
       field :ops_alert_email
       field :security_officer_id
       field :billing_contact_id
-      field :bf_account_id
+      field :billforward_account_id
 
       def billforward_account
-        return nil if bf_account_id.nil?
-        @bf_account ||= Aptible::BillForward::Account.find(bf_account_id)
+        return nil if billforward_account_id.nil?
+        @billforward_account ||= Aptible::BillForward::Account.find(billforward_account_id)
       end
 
       def stripe_customer
