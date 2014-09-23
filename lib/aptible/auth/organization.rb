@@ -1,4 +1,5 @@
 require 'stripe'
+require 'aptible/billforward'
 
 module Aptible
   module Auth
@@ -27,6 +28,12 @@ module Aptible
       field :ops_alert_email
       field :security_officer_id
       field :billing_contact_id
+      field :bf_account_id
+
+      def billforward_account
+        return nil if bf_account_id.nil?
+        @bf_account ||= Aptible::BillForward::Account.find(bf_account_id)
+      end
 
       def stripe_customer
         return nil if stripe_customer_id.nil?
