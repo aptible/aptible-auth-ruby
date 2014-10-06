@@ -61,10 +61,11 @@ module Aptible
       end
 
       def accounts
+        return @accounts if @accounts
         require 'aptible/api'
 
         accounts = Aptible::Api::Account.all(token: token, headers: headers)
-        accounts.select do |account|
+        @accounts = accounts.select do |account|
           (link = account.links[:organization]) && link.href == href
         end
       end
