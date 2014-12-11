@@ -6,6 +6,7 @@ module Aptible
       field :id
       field :email
       field :created_at, type: Time
+      field :updated_at, type: Time
     end
   end
 end
