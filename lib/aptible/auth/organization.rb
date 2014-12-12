@@ -6,6 +6,7 @@ module Aptible
     class Organization < Resource
       has_many :roles
       has_many :users
+      has_many :invitations
       belongs_to :security_officer
       belongs_to :billing_contact
 

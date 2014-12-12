@@ -50,10 +50,9 @@ describe Aptible::Auth::User do
       subject.stub(:roles) { [so, owner] }
       expect(subject.organizations.count).to eq 1
     end
-
   end
-  describe '#roles' do
 
+  describe '#roles' do
     let(:so) { double 'Aptible::Auth::Role' }
     let(:owner) { double 'Aptible::Auth::Role' }
 
@@ -70,7 +69,6 @@ describe Aptible::Auth::User do
   end
 
   describe '#set_organization_roles' do
-
     let(:so) { double 'Aptible::Auth::Role' }
     let(:owner) { double 'Aptible::Auth::Role' }
     let(:org) { double 'Aptible::Auth::Organization' }
@@ -137,6 +135,5 @@ describe Aptible::Auth::User do
 
       subject.set_organization_roles(org, [])
     end
-
   end
 end
