@@ -16,13 +16,12 @@ module Aptible
       end
 
       def set_account_permissions(account, scopes)
-        account_permissions = account_permissions(account)
-        existing_permissions = account_permissions.select do |permission|
-          permission.destroy unless scopes.include? permission.scope
-          return scopes.include? permission.scope
-        end
+        permissions = account_permissions(account)
 
-        new_scopes = scopes - existing_permissions.map(&:scope)
+        permissions.each { |p| p.destroy unless scopes.include? p.scope }
+        existing = permissions.keep_if { |p| scopes.include? p.scope }
+
+        new_scopes = scopes - existing.map(&:scope)
         add_account_scopes(account, new_scopes)
       end
 
