@@ -44,7 +44,7 @@ module Aptible
       end
 
       def can_manage_compliance?
-        %w(production).include?(plan)
+        %w(production pilot).include?(plan)
       end
 
       def subscription
