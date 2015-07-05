@@ -21,12 +21,12 @@ describe Aptible::Auth::Organization do
 
   describe '#can_manage_compliance?' do
     it 'should return true with compliance plan' do
-      subject.stub(:plan) { 'production' }
+      subject.stub(:billing_details) { OpenStruct.new(plan: 'production') }
       expect(subject.can_manage_compliance?).to be_true
     end
 
     it 'should return false without compliance plan' do
-      subject.stub(:plan) { 'platform' }
+      subject.stub(:billing_details) { OpenStruct.new(plan: 'platform') }
       expect(subject.can_manage_compliance?).to be_false
     end
   end
