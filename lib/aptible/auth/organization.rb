@@ -49,7 +49,9 @@ module Aptible
       end
 
       def billing_details
-        @billing_details ||= Aptible::Billing::BillingDetail.find(id)
+        @billing_details ||= Aptible::Billing::BillingDetail.find(
+          id, token: token, headers: headers
+        )
       end
 
       def subscription
