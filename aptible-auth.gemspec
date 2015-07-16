@@ -19,6 +19,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^spec/})
   spec.require_paths = ['lib']
 
+  spec.add_dependency 'aptible-billing'
   spec.add_dependency 'aptible-resource', '>= 0.2.1'
   spec.add_dependency 'stripe', '>= 1.13.0'
   spec.add_dependency 'gem_config'

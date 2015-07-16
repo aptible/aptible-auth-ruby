@@ -1,4 +1,5 @@
 require 'stripe'
+require 'aptible/billing'
 require 'aptible/billforward'
 
 module Aptible
@@ -44,7 +45,11 @@ module Aptible
       end
 
       def can_manage_compliance?
-        %w(production pilot).include?(plan)
+        %w(production pilot).include?(billing_details.plan)
+      end
+
+      def billing_details
+        @billing_details ||= Aptible::Billing::BillingDetail.find(id)
       end
 
       def subscription
