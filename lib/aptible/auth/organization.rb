@@ -1,6 +1,5 @@
 require 'stripe'
 require 'aptible/billing'
-require 'aptible/billforward'
 
 module Aptible
   module Auth
@@ -9,7 +8,6 @@ module Aptible
       has_many :users
       has_many :invitations
       belongs_to :security_officer
-      belongs_to :billing_contact
 
       field :id
       field :name
@@ -22,46 +20,14 @@ module Aptible
       field :state
       field :zip
       field :address
-      field :stripe_customer_id
-      field :stripe_subscription_id
-      field :stripe_subscription_status
-      field :plan
       field :security_alert_email
       field :ops_alert_email
       field :security_officer_id
-      field :billing_contact_id
-      field :billforward_account_id
 
-      def billforward_account
-        return nil if billforward_account_id.nil?
-        @billforward_account ||= Aptible::BillForward::Account.find(
-          billforward_account_id
-        )
-      end
-
-      def stripe_customer
-        return nil if stripe_customer_id.nil?
-        @stripe_customer ||= Stripe::Customer.retrieve(stripe_customer_id)
-      end
-
-      def can_manage_compliance?
-        %w(production pilot).include?(billing_details.plan)
-      end
-
-      def billing_details
-        @billing_details ||= Aptible::Billing::BillingDetail.find(
+      def billing_detail
+        @billing_detail ||= Aptible::Billing::BillingDetail.find(
           id, token: token, headers: headers
         )
-      end
-
-      def subscription
-        return nil if stripe_subscription_id.nil?
-        subscriptions = stripe_customer.subscriptions
-        @subscription ||= subscriptions.retrieve(stripe_subscription_id)
-      end
-
-      def subscribed?
-        !!stripe_subscription_id
       end
 
       def privileged_roles
