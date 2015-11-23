@@ -30,6 +30,11 @@ module Aptible
         )
       end
 
+      def can_manage_compliance?
+        return false unless billing_detail
+        %w(production pilot).include?(billing_detail.plan)
+      end
+
       def privileged_roles
         roles.select(&:privileged?)
       end
