@@ -67,6 +67,7 @@ module Aptible
         @access_token = response.token
         @refresh_token = response.refresh_token
         @expires_at = Time.at(response.expires_at)
+        self
       end
 
       def signing_params_from_secret(secret)
