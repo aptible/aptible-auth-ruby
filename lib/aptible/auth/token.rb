@@ -58,6 +58,8 @@ module Aptible
           authenticate_client(client_id, client_secret, subject, options)
         elsif (user_href = options.delete(:user_href))
           authenticate_impersonate(user_href, options)
+        else
+          fail 'Unrecognized options'
         end
       end
 
