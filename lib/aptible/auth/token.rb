@@ -26,6 +26,23 @@ module Aptible
         parse_oauth_response(response)
       end
 
+      def authenticate_impersonate(user_href, options)
+        # TODO: This duplicates aptible-resource, is it worth extracting?
+        token = case token = options.delete(:token)
+                when Aptible::Resource::Base then token.access_token
+                when Fridge::AccessToken then token.to_s
+                when String then token
+                else bearer_token
+                end
+
+        # TODO: Do we want to check whether the token is non-nil at this stage?
+        options[:scope] ||= 'manage'
+        response = oauth.token_exchange.get_token(
+          token, 'urn:ietf:params:oauth:token-type:jwt',
+          user_href, 'aptible:user:href', options)
+        parse_oauth_response(response)
+      end
+
       def oauth
         options = { site: root_url, token_url: '/tokens' }
         @oauth ||= OAuth2::Client.new(nil, nil, options)
@@ -39,6 +56,10 @@ module Aptible
               (client_secret = options.delete(:client_secret)) &&
               (subject = options.delete(:subject))
           authenticate_client(client_id, client_secret, subject, options)
+        elsif (user_href = options.delete(:user_href))
+          authenticate_impersonate(user_href, options)
+        else
+          fail 'Unrecognized options'
         end
       end
 
@@ -48,6 +69,7 @@ module Aptible
         @access_token = response.token
         @refresh_token = response.refresh_token
         @expires_at = Time.at(response.expires_at)
+        self
       end
 
       def signing_params_from_secret(secret)
