@@ -26,7 +26,7 @@ module Aptible
         parse_oauth_response(response)
       end
 
-      def authenticate_impersonate(user_href, options)
+      def authenticate_impersonate(subject_token, subject_token_type, options)
         # TODO: This duplicates aptible-resource, is it worth extracting?
         token = case token = options.delete(:token)
                 when Aptible::Resource::Base then token.access_token
@@ -39,7 +39,7 @@ module Aptible
         options[:scope] ||= 'manage'
         response = oauth.token_exchange.get_token(
           token, 'urn:ietf:params:oauth:token-type:jwt',
-          user_href, 'aptible:user:href', options)
+          subject_token, subject_token_type, options)
         parse_oauth_response(response)
       end
 
@@ -56,8 +56,12 @@ module Aptible
               (client_secret = options.delete(:client_secret)) &&
               (subject = options.delete(:subject))
           authenticate_client(client_id, client_secret, subject, options)
-        elsif (user_href = options.delete(:user_href))
-          authenticate_impersonate(user_href, options)
+        elsif (href = options.delete(:user_href))
+          authenticate_impersonate(href, 'aptible:user:href', options)
+        elsif (href = options.delete(:organization_href))
+          authenticate_impersonate(href, 'aptible:organization:href', options)
+        elsif (email = options.delete(:user_email))
+          authenticate_impersonate(email, 'aptible:user:email', options)
         else
           fail 'Unrecognized options'
         end
