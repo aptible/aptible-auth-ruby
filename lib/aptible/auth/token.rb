@@ -49,6 +49,7 @@ module Aptible
       end
 
       def process_options(options)
+        options = options.dup
         if (email = options.delete(:email)) &&
            (password = options.delete(:password))
           authenticate_user(email, password, options)

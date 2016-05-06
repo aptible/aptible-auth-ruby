@@ -27,6 +27,13 @@ describe Aptible::Auth::Token do
         subject: 'user@example.com'
       )
     end
+
+    it 'should not alter the hash it receives' do
+      options = { email: 'some email' }
+      options_before = options.dup
+      expect { described_class.create options }.to raise_error(/Unrecognized/)
+      expect(options).to eq(options_before)
+    end
   end
 
   describe '#initialize' do
