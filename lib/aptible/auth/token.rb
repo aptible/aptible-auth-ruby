@@ -18,10 +18,17 @@ module Aptible
       field :refresh_token
       field :expires_at
 
-      def self.create!(options)
+      def self.create(options)
+        # For backwards compatibility: we used to throw in .create (which isn't
+        # consistent with other resources), and we probably need to continue
+        # doing this. We also need to continue throwing a OAuth2::Error.
         token = new
         token.process_options(options)
         token
+      end
+
+      def self.create!(options)
+        Token.create(options)
       rescue OAuth2::Error => e
         # Rethrow OAuth2::Error as HyperResource::ResponseError for
         # aptible-resource to handle
