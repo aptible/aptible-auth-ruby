@@ -5,9 +5,16 @@ describe Aptible::Auth::Token do
   let(:response) { double OAuth2::AccessToken }
 
   before { subject.stub(:oauth) { oauth } }
-  before { response.stub(:token) }
-  before { response.stub(:refresh_token) }
-  before { response.stub(:expires_at) { Time.now.to_i } }
+  let(:expires_at) { Time.now - Random.rand(1000) }
+  before do
+    response.stub(:to_hash) do
+      {
+        access_token: 'access_token',
+        refresh_token: nil,
+        expires_at: expires_at.to_i
+      }
+    end
+  end
 
   describe '.create' do
     it 'should call #authenticate_user if passed :email and :password' do
@@ -60,9 +67,19 @@ describe Aptible::Auth::Token do
     end
 
     it 'should set the access_token' do
-      oauth.stub_chain(:password, :get_token, :token) { 'access_token' }
       subject.authenticate_user(*args)
       expect(subject.access_token).to eq 'access_token'
+    end
+
+    it 'should set the Authorization header' do
+      subject.authenticate_user(*args)
+      expect(subject.headers['Authorization']).to eq 'Bearer access_token'
+    end
+
+    it 'should set the expires_at property' do
+      subject.authenticate_user(*args)
+      expect(subject.expires_at).to be_a Time
+      expect(subject.expires_at.to_i).to eq expires_at.to_i
     end
   end
 
@@ -96,9 +113,28 @@ describe Aptible::Auth::Token do
     end
 
     it 'should set the access_token' do
-      oauth.stub_chain(:assertion, :get_token, :token) { 'access_token' }
       subject.authenticate_client(*args)
       expect(subject.access_token).to eq 'access_token'
+    end
+
+    it 'should set the Authorization header' do
+      subject.authenticate_client(*args)
+      expect(subject.headers['Authorization']).to eq 'Bearer access_token'
+    end
+  end
+
+  describe '#authenticate_impersonate' do
+    let(:args) { ['foo@bar.com', 'aptible:user:email', {}] }
+    before { oauth.stub_chain(:token_exchange, :get_token) { response } }
+
+    it 'should set the access_token' do
+      subject.authenticate_impersonate(*args)
+      expect(subject.access_token).to eq 'access_token'
+    end
+
+    it 'should set the Authorization header' do
+      subject.authenticate_impersonate(*args)
+      expect(subject.headers['Authorization']).to eq 'Bearer access_token'
     end
   end
 
