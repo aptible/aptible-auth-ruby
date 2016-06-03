@@ -18,6 +18,9 @@ module Aptible
       field :refresh_token
       field :expires_at
 
+      field :created_at, type: Time
+      field :updated_at, type: Time
+
       def self.create(options)
         # For backwards compatibility: we used to throw in .create (which isn't
         # consistent with other resources), and we probably need to continue
