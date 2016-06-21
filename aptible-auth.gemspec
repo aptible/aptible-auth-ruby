@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'aptible-resource', '>= 0.3.1'
   spec.add_dependency 'stripe', '>= 1.13.0'
   spec.add_dependency 'gem_config'
-  spec.add_dependency 'oauth2-aptible', '>= 0.9.5'
+  spec.add_dependency 'oauth2-aptible', '~> 0.10.0'
 
   spec.add_development_dependency 'bundler', '~> 1.3'
   spec.add_development_dependency 'aptible-tasks', '>= 0.2.0'
