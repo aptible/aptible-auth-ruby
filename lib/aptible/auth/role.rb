@@ -7,7 +7,7 @@ module Aptible
 
       field :id
       field :name
-      field :privileged, type: Aptible::Resource::Boolean
+      field :type
       field :created_at, type: Time
       field :updated_at, type: Time
 
