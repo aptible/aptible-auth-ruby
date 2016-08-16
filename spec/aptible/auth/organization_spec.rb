@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Aptible::Auth::Organization do
   describe '#can_manage_compliance?' do
-    before { subject.stub(:billing_detail)  { billing_detail } }
+    before { subject.stub(:billing_detail) { billing_detail } }
 
     context 'without a billing detail' do
       let(:billing_detail) { nil }

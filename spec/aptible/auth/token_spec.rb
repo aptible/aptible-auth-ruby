@@ -158,7 +158,7 @@ describe Aptible::Auth::Token do
     end
 
     it 'should return a correct :private_key for Base64-only keys' do
-      stripped_key = private_key_string.gsub(/^-.*-$/, '').gsub("\n", '')
+      stripped_key = private_key_string.gsub(/^-.*-$/, '').delete("\n")
       params = subject.call(stripped_key)
       expect(params[:private_key]).to be_a OpenSSL::PKey::RSA
     end
