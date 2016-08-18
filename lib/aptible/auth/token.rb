@@ -68,7 +68,8 @@ module Aptible
         options[:scope] ||= 'manage'
         oauth_token = oauth.token_exchange.get_token(
           actor_token, 'urn:ietf:params:oauth:token-type:jwt',
-          subject_token, subject_token_type, options)
+          subject_token, subject_token_type, options
+        )
         apply_oauth_response(oauth_token)
       end
 
@@ -93,7 +94,9 @@ module Aptible
         elsif (email = options.delete(:user_email))
           authenticate_impersonate(email, 'aptible:user:email', options)
         else
+          # rubocop:disable Style/SignalException
           fail 'Unrecognized options'
+          # rubocop:enable Style/SignalException
         end
       end
 
@@ -137,7 +140,7 @@ module Aptible
       end
 
       def parse_private_key(string)
-        if string =~ /\A-----/
+        if string.start_with?('-----')
           OpenSSL::PKey::RSA.new(string)
         else
           formatted_string = <<-PRIVATE_KEY.gsub(/^\s+/, '')
