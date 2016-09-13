@@ -112,6 +112,20 @@ describe Aptible::Auth::Token do
       subject.authenticate_client(*args)
     end
 
+    it 'should replace expires_in in exp' do
+      args << { expires_in: 1800 }
+      Timecop.freeze do
+        expect(oauth.assertion).to receive(:get_token).with(
+          iss: 'id',
+          sub: 'user@example.com',
+          exp: Time.now.to_i + 1800,
+          algorithm: 'foobar',
+          scope: 'manage'
+        )
+        subject.authenticate_client(*args)
+      end
+    end
+
     it 'should set the access_token' do
       subject.authenticate_client(*args)
       expect(subject.access_token).to eq 'access_token'

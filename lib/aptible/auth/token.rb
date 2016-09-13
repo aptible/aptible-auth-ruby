@@ -47,6 +47,11 @@ module Aptible
 
       def authenticate_client(id, secret, subject, options = {})
         options[:scope] ||= 'manage'
+        # Unlike other methods, the assertion token grant requirs an "exp"
+        # parameter rather than expires_in, but since we'd like to expose a
+        # consistent API to consumers, we override it here
+        expires_in = options.delete(:expires_in)
+        options[:exp] = Time.now.utc.to_i + expires_in if expires_in
         oauth_token = oauth.assertion.get_token({
           iss: id,
           sub: subject
