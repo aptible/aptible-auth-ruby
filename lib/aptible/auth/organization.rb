@@ -1,4 +1,3 @@
-require 'stripe'
 require 'aptible/billing'
 
 module Aptible
