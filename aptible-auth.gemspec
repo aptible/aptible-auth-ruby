@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'aptible-billing'
-  spec.add_dependency 'aptible-resource', '>= 0.3.1'
+  spec.add_dependency 'aptible-resource', '~> 0.3.8'
   spec.add_dependency 'gem_config'
   spec.add_dependency 'oauth2-aptible', '~> 0.10.0'
 
