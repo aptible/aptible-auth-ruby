@@ -79,7 +79,15 @@ module Aptible
       end
 
       def oauth
-        options = { site: root_url, token_url: '/tokens' }
+        options = {
+          site: root_url,
+          token_url: '/tokens',
+          connection_opts: {
+            headers: {
+              'User-Agent' => Aptible::Resource.configuration.user_agent
+            }
+          }
+        }
         @oauth ||= OAuth2::Client.new(nil, nil, options)
       end
 
