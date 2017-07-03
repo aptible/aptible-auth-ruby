@@ -9,6 +9,7 @@ module Aptible
       field :email
       field :username
       field :verified, type: Aptible::Resource::Boolean
+      field :superuser, type: Aptible::Resource::Boolean
       field :created_at, type: Time
       field :updated_at, type: Time
 
