@@ -14,7 +14,9 @@ module Aptible
       field :updated_at, type: Time
 
       def organizations
-        roles.map(&:organization).uniq(&:id)
+        # Establish uniqueness of requests before loading all organizations
+        # We can do this by reading the `organization` link for each role
+        roles.map(&:links).map(&:organization).uniq(&:base_href).map(&:get)
       end
 
       def operations
