@@ -2,14 +2,22 @@ require 'spec_helper'
 
 describe Aptible::Auth::User do
   describe '#organizations' do
+    let(:org_id) { 1 }
     let(:so) { double 'Aptible::Auth::Role' }
     let(:owner) { double 'Aptible::Auth::Role' }
     let(:org) { double 'Aptible::Auth::Organization' }
+    let(:organization_link) do
+      double('Aptible::Auth::Organization::Link', href: '/organizations/1')
+    end
+    let(:role_link) { double('Aptible::Auth::Role::Link') }
 
     before do
-      org.stub(:id) { 1 }
-      so.stub(:organization) { org }
-      owner.stub(:organization) { org }
+      role_link.stub(:organization) { organization_link }
+      organization_link.stub(:get) { org }
+
+      org.stub(:id) { org_id }
+      so.stub(:links) { role_link }
+      owner.stub(:links) { role_link }
     end
 
     it 'should return empty if no organizations' do
