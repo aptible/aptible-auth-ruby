@@ -16,7 +16,7 @@ module Aptible
       def organizations
         # Establish uniqueness of requests before loading all organizations
         # We can do this by reading the `organization` link for each role
-        roles.map(&:links).map(&:organization).uniq(&:base_href).map(&:get)
+        roles.map(&:links).map(&:organization).uniq(&:href).map(&:get)
       end
 
       def operations

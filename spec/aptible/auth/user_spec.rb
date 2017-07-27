@@ -7,7 +7,7 @@ describe Aptible::Auth::User do
     let(:owner) { double 'Aptible::Auth::Role' }
     let(:org) { double 'Aptible::Auth::Organization' }
     let(:organization_link) do
-      double('Aptible::Auth::Organization::Link', base_href: '/organizations/1')
+      double('Aptible::Auth::Organization::Link', href: '/organizations/1')
     end
     let(:role_link) { double('Aptible::Auth::Role::Link') }
 
