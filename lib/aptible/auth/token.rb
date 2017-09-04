@@ -60,14 +60,7 @@ module Aptible
       end
 
       def authenticate_impersonate(subject_token, subject_token_type, options)
-        # TODO: This duplicates aptible-resource, is it worth extracting?
-        actor_token = \
-          case actor_token = options.delete(:token)
-          when Aptible::Resource::Base then actor_token.access_token
-          when Fridge::AccessToken then actor_token.to_s
-          when String then actor_token
-          else bearer_token
-          end
+        actor_token = token_as_string(options.delete(:token)) || bearer_token
 
         # TODO: Do we want to check whether the token is non-nil at this stage?
         options[:scope] ||= 'manage'
@@ -75,6 +68,7 @@ module Aptible
           actor_token, 'urn:ietf:params:oauth:token-type:jwt',
           subject_token, subject_token_type, options
         )
+
         apply_oauth_response(oauth_token)
       end
 
@@ -106,10 +100,12 @@ module Aptible
           authenticate_impersonate(href, 'aptible:organization:href', options)
         elsif (email = options.delete(:user_email))
           authenticate_impersonate(email, 'aptible:user:email', options)
+        elsif (user_token = options.delete(:user_token))
+          authenticate_impersonate(
+            token_as_string(user_token), 'aptible:token', options
+          )
         else
-          # rubocop:disable Style/SignalException
-          fail 'Unrecognized options'
-          # rubocop:enable Style/SignalException
+          raise 'Unrecognized options'
         end
       end
 
@@ -168,6 +164,19 @@ module Aptible
       def key_length(private_key)
         # http://stackoverflow.com/questions/13747212
         private_key.n.num_bytes * 8
+      end
+
+      def token_as_string(tok)
+        # TODO: This duplicates aptible-resource, is it worth extracting?
+        return nil if tok.nil?
+
+        case tok
+        when Aptible::Resource::Base then tok.access_token
+        when Fridge::AccessToken then tok.to_s
+        when String then tok
+        else
+          raise "Unrecognized token: #{tok.class}: #{tok}"
+        end
       end
     end
   end
