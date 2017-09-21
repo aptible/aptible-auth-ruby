@@ -31,11 +31,40 @@ describe Aptible::Auth::Token do
         Aptible::Auth::Token.any_instance.should_receive(
           :authenticate_client
         ).with 'id', 'secret', 'user@example.com', {}
+
         described_class.create(
           client_id: 'id',
           client_secret: 'secret',
           subject: 'user@example.com'
         )
+      end
+
+      it 'should #authenticate_impersonate if passed user_href' do
+        Aptible::Auth::Token.any_instance.should_receive(
+          :authenticate_impersonate
+        ).with('foo.href', 'aptible:user:href', {})
+        described_class.create(user_href: 'foo.href')
+      end
+
+      it 'should #authenticate_impersonate if passed organization_href' do
+        Aptible::Auth::Token.any_instance.should_receive(
+          :authenticate_impersonate
+        ).with('foo.href', 'aptible:organization:href', {})
+        described_class.create(organization_href: 'foo.href')
+      end
+
+      it 'should #authenticate_impersonate if passed user_email' do
+        Aptible::Auth::Token.any_instance.should_receive(
+          :authenticate_impersonate
+        ).with('foo@com', 'aptible:user:email', {})
+        described_class.create(user_email: 'foo@com')
+      end
+
+      it 'should #authenticate_impersonate if passed user_token' do
+        Aptible::Auth::Token.any_instance.should_receive(
+          :authenticate_impersonate
+        ).with('tok tok tok', 'aptible:token', {})
+        described_class.create(user_token: 'tok tok tok')
       end
 
       it 'should not alter the hash it receives' do
@@ -140,7 +169,7 @@ describe Aptible::Auth::Token do
       end
     end
 
-    describe '#authenticate_impersonate' do
+    describe '#authenticate_impersonate (user email)' do
       let(:args) { ['foo@bar.com', 'aptible:user:email', {}] }
       before { oauth.stub_chain(:token_exchange, :get_token) { response } }
 
