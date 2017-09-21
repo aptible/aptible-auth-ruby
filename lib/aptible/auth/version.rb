@@ -1,5 +1,5 @@
 module Aptible
   module Auth
-    VERSION = '0.11.15'.freeze
+    VERSION = '0.12.0'.freeze
   end
 end
