@@ -18,3 +18,4 @@ end
 
 require 'aptible/auth/resource'
 require 'aptible/auth/agent'
+require 'aptible/auth/oauth2_config'
