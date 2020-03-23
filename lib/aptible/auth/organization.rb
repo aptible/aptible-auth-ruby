@@ -1,5 +1,3 @@
-require 'aptible/billing'
-
 module Aptible
   module Auth
     class Organization < Resource
@@ -22,17 +20,6 @@ module Aptible
       field :security_alert_email
       field :ops_alert_email
       field :security_officer_id
-
-      def billing_detail
-        @billing_detail ||= Aptible::Billing::BillingDetail.find(
-          id, token: token, headers: headers
-        )
-      end
-
-      def can_manage_compliance?
-        return false unless billing_detail
-        %w(production pilot).include?(billing_detail.plan)
-      end
 
       def privileged_roles
         roles.select(&:privileged?)
