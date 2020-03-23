@@ -30,6 +30,7 @@ module Aptible
 
       def accounts
         return @accounts if @accounts
+
         require 'aptible/api'
 
         accounts = Aptible::Api::Account.all(token: token, headers: headers)
@@ -45,7 +46,7 @@ module Aptible
       def create_saml_configuration!(params)
         HyperResource::Link.new(
           self,
-          'href' => "#{self.href}/saml_configurations"
+          'href' => "#{href}/saml_configurations"
         ).post(self.class.normalize_params(params))
       end
     end
