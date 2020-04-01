@@ -144,7 +144,7 @@ module Aptible
         private_key = parse_private_key(secret)
         {
           private_key: private_key,
-          algorithm:  "RS#{key_length(private_key) / 2}"
+          algorithm: "RS#{key_length(private_key) / 2}"
         }
       end
 

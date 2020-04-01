@@ -82,7 +82,7 @@ describe Aptible::Auth::Token do
     end
 
     describe '#authenticate_user' do
-      let(:args) { %w(user@example.com foobar) }
+      let(:args) { %w[user@example.com foobar] }
 
       before { oauth.stub_chain(:password, :get_token) { response } }
 
@@ -116,7 +116,7 @@ describe Aptible::Auth::Token do
     end
 
     describe '#authenticate_client' do
-      let(:args) { %w(id secret user@example.com) }
+      let(:args) { %w[id secret user@example.com] }
 
       before do
         subject.stub(:signing_params_from_secret) { { algorithm: 'foobar' } }

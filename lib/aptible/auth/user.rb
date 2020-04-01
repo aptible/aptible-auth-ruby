@@ -3,6 +3,7 @@ module Aptible
     class User < Resource
       has_many :roles
       has_many :ssh_keys
+      has_many :whitelist_memberhips
 
       field :id
       field :name
