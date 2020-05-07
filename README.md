@@ -14,8 +14,6 @@ Add the following line to your application's Gemfile.
 
 And then run `bundle install`.
 
-A forked version of the OAuth2 gem is necessary until [intridea/oauth2#165](https://github.com/intridea/oauth2/pull/165) and [intridea/oauth2#166](https://github.com/intridea/oauth2/pull/166) are merged.
-
 ## Usage
 
 First, get a token:
