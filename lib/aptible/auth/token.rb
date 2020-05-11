@@ -1,4 +1,5 @@
 require 'oauth2'
+require 'oauth2/strategy/token_exchange'
 
 module Aptible
   module Auth
