@@ -25,7 +25,7 @@ module OAuth2
                   'actor_token_type'    => actor_token_type,
                   'subject_token'       => subject_token,
                   'subject_token_type'  => subject_token_type
-        }.merge(client_params).merge(params)
+        }.merge(params)
         @client.get_token(params, opts)
       end
     end
