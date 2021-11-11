@@ -106,6 +106,12 @@ module Aptible
           authenticate_impersonate(
             token_as_string(user_token), 'aptible:token', options
           )
+        elsif (href = options.delete(:ssh_key_pre_authorization_href))
+          authenticate_impersonate(
+            href,
+            'aptible:ssh_key_pre_authorization:href',
+            options
+          )
         else
           raise 'Unrecognized options'
         end

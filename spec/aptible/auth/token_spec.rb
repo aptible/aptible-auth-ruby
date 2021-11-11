@@ -67,6 +67,16 @@ describe Aptible::Auth::Token do
         described_class.create(user_token: 'tok tok tok')
       end
 
+      it(
+        'should #authenticate_impersonate if passed ' \
+        'ssh_key_pre_authorization_href'
+      ) do
+        Aptible::Auth::Token.any_instance.should_receive(
+          :authenticate_impersonate
+        ).with('foo.href', 'aptible:ssh_key_pre_authorization:href', {})
+        described_class.create(ssh_key_pre_authorization_href: 'foo.href')
+      end
+
       it 'should not alter the hash it receives' do
         options = { email: 'some email' }
         options_before = options.dup
