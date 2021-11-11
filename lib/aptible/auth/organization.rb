@@ -1,3 +1,5 @@
+require 'aptible/billing'
+
 module Aptible
   module Auth
     class Organization < Resource
