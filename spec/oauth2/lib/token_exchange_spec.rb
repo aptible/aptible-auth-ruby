@@ -4,14 +4,14 @@ require 'oauth2/strategy/token_exchange'
 RSpec.describe OAuth2::Strategy::TokenExchange do
   let(:client) do
     cli = OAuth2::Client.new('abc', 'def', :site => 'http://api.example.com')
-    cli.connection.build do |b|
+    cli.connection.builder.build do |b|
       b.adapter :test do |stub|
         stub.post('/oauth/token') do |env|
           case @mode
           when 'formencoded'
             [200, {'Content-Type' => 'application/x-www-form-urlencoded'}, 'expires_in=600&access_token=salmon&refresh_token=trout']
           when 'json'
-            [200, {'Content-Type' => 'application/json'}, '{"expires_in":600,"access_token":"salmon","refresh_token":"trout"}']
+            [200, {'Content-Type' => 'application/json'}, {"expires_in" => 600, "access_token" => "salmon", "refresh_token" => "trout"}]
           end
         end
       end
