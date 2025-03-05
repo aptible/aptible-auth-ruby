@@ -1,3 +1,4 @@
+require 'logger'
 require 'aptible/resource'
 
 module Aptible
