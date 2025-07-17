@@ -1,5 +1,4 @@
 require 'oauth2'
-require 'oauth2/response_parser'
 require 'oauth2/strategy/token_exchange'
 
 module Aptible
@@ -78,6 +77,7 @@ module Aptible
         options = {
           site: root_url,
           token_url: '/tokens',
+          auth_scheme: :request_body,
           connection_opts: {
             headers: {
               'User-Agent' => Aptible::Resource.configuration.user_agent
