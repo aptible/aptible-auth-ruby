@@ -53,7 +53,7 @@ module Aptible
         # consistent API to consumers, we override it here
         expires_in = options.delete(:expires_in)
         options[:exp] = Time.now.utc.to_i + expires_in if expires_in
-        oauth_token = oauth.assertion.get_token({
+        oauth_token = oauth.assertion.get_token(**{
           iss: id,
           sub: subject
         }.merge(signing_params_from_secret(secret).merge(options)))
