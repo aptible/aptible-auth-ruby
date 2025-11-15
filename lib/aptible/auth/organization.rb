@@ -5,6 +5,7 @@ module Aptible
       has_many :users
       has_many :invitations
       has_many :whitelist_memberships
+      has_many :external_aws_roles
       belongs_to :security_officer
 
       field :id
@@ -47,6 +48,13 @@ module Aptible
         HyperResource::Link.new(
           self,
           'href' => "#{href}/saml_configurations"
+        ).post(self.class.normalize_params(params))
+      end
+
+      def create_external_aws_role!(params)
+        HyperResource::Link.new(
+          self,
+          'href' => "#{href}/external_aws_roles"
         ).post(self.class.normalize_params(params))
       end
     end
