@@ -63,21 +63,22 @@ module Aptible
           self,
           'href' => "#{href}/external_aws_roles"
         )
-        response = link.get(params: {
-          aws_account_id: aws_account_id,
-          role_type: role_type
-        })
-
-        # Parse the response to get the embedded external_aws_roles
+        response = link.get(params:
+          {
+            aws_account_id: aws_account_id,
+            role_type: role_type
+          }
+        )
         roles = response.body.dig('_embedded', 'external_aws_roles') || []
         return nil if roles.empty?
 
-        # Return the first matching role as an ExternalAwsRole object
         role_data = roles.first
-        ExternalAwsRole.new(role_data.merge(
-          adapter: adapter,
-          loaded: true
-        ))
+        ExternalAwsRole.new(
+          role_data.merge(
+            adapter: adapter,
+            loaded: true
+          )
+        )
       end
     end
   end
