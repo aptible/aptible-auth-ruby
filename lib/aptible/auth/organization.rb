@@ -63,8 +63,8 @@ module Aptible
           self,
           'href' => "#{href}/external_aws_roles"
         )
-        response = link.get(params:
-          {
+        response = link.get(
+          params: {
             aws_account_id: aws_account_id,
             role_type: role_type
           }
