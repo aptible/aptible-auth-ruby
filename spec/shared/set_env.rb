@@ -1,4 +1,4 @@
-def set_env(*args, _block)
+def set_env(*args, &_block)
   hash = args.first.is_a?(Hash) ? args.first : Hash[*args]
   old_values = Hash[hash.map { |k, _| [k, ENV[k]] }]
   begin
