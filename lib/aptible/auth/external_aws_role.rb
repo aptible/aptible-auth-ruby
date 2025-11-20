@@ -4,7 +4,7 @@ module Aptible
       belongs_to :organization
 
       field :id
-      field :external_aws_role_id
+      field :external_aws_account_id
       field :aws_account_id
       field :role_type
       field :role_arn
