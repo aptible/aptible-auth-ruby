@@ -18,17 +18,22 @@ describe Aptible::Auth::Organization do
         role_type: 'deploy'
       }
     end
-    let(:link) { double('HyperResource::Link') }
+    let(:external_aws_role) { double('Aptible::Auth::ExternalAwsRole') }
+    let(:external_aws_roles_link) { double('HyperResource::Link') }
 
     before do
-      allow(subject).to receive(:href) { 'https://auth.aptible.com/organizations/1' }
-      allow(HyperResource::Link).to receive(:new).and_return(link)
-      allow(link).to receive(:post)
+      allow(subject).to receive(:loaded) { true }
+      allow(subject).to receive(:links) { { external_aws_roles: external_aws_roles_link } }
+      allow(external_aws_roles_link).to receive(:create).and_return(external_aws_role)
     end
 
-    it 'should POST to the external_aws_roles endpoint' do
-      expect(link).to receive(:post).with(params)
+    it 'should call create on the external_aws_roles link' do
+      expect(external_aws_roles_link).to receive(:create).with(params)
       subject.create_external_aws_role!(params)
+    end
+
+    it 'should return the created external_aws_role' do
+      expect(subject.create_external_aws_role!(params)).to eq external_aws_role
     end
   end
 end
