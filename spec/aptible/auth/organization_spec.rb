@@ -10,6 +10,15 @@ describe Aptible::Auth::Organization do
     end
   end
 
+  describe '#external_aws_roles' do
+    let(:external_aws_role) { double 'Aptible::Auth::ExternalAwsRole' }
+
+    it 'should return the external_aws_roles' do
+      allow(subject).to receive(:external_aws_roles) { [external_aws_role] }
+      expect(subject.external_aws_roles).to eq [external_aws_role]
+    end
+  end
+
   describe '#create_external_aws_role!' do
     let(:params) do
       {
