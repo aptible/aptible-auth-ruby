@@ -5,6 +5,7 @@ module Aptible
       has_many :users
       has_many :invitations
       has_many :whitelist_memberships
+      has_many :external_aws_roles
       belongs_to :security_officer
 
       field :id

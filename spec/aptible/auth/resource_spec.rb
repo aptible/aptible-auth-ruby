@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Aptible::Auth::Resource do
   its(:namespace) { should eq 'Aptible::Auth' }
-  its(:root_url) { should eq 'https://auth.aptible.com' }
+  its(:root_url) { should eq ENV['APTIBLE_AUTH_ROOT_URL'] || 'https://auth.aptible.com' }
 
   describe '#bearer_token' do
     it 'should accept an Aptible::Auth::Token' do
