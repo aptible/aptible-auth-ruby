@@ -3,9 +3,9 @@ services:
     build:
       context: .
       cache_to:
-        - type=gha,mode=max,ignore-error=true
+        - type=gha,mode=max,ignore-error=true,scope=${COMPOSE_PROJECT_NAME}
       cache_from:
-        - type=gha
+        - type=gha,scope=${COMPOSE_PROJECT_NAME}
       args:
         RUBY_VERSION: ${RUBY_VERSION:-2.3.1}
         BUNDLER_VERSION: ${BUNDLER_VERSION:-}
