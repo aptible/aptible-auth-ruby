@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'aptible-resource', '~> 1.0'
-  spec.add_dependency 'concurrent-ruby', '1.3.4'
+  spec.add_dependency 'concurrent-ruby', '~> 1.3'
   spec.add_dependency 'gem_config'
   spec.add_dependency 'multipart-post', '2.1.1'
   spec.add_dependency 'oauth2', '2.0.9'
