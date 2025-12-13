@@ -2,8 +2,13 @@ services:
   runner:
     build:
       context: .
+      cache_to:
+        - type=gha,mode=max,ignore-error=true
+      cache_from:
+        - type=gha
       args:
         RUBY_VERSION: ${RUBY_VERSION:-2.3.1}
+      
     volumes:
       - type: bind
         source: .
