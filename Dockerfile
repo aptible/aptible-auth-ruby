@@ -1,8 +1,11 @@
 ARG RUBY_VERSION=2.3.1
 FROM ruby:${RUBY_VERSION}
 
-ENV BUNDLER_VERSION=1.17.3
-RUN gem install bundler -v "${BUNDLER_VERSION}"
+ARG BUNDLER_VERSION=1.17.3
+ENV BUNDLER_VERSION=${BUNDLER_VERSION}
+RUN if [ "${BUNDLER_VERSION}" != "" ] ; then \
+      gem install bundler -v "${BUNDLER_VERSION}" ; \
+    fi
 
 WORKDIR /app
 COPY Gemfile /app
