@@ -32,7 +32,7 @@ bash: build
 CMD ?= bash
 ## Run command in a docker container, supports CMD=
 run:
-	docker compose run runner $(CMD)
+	docker compose run --rm runner $(CMD)
 
 ## Run tests in a docker container, supports ARGS=
 test: build
@@ -40,7 +40,7 @@ test: build
 
 ## Run tests in a docker container without building, supports ARGS=
 test-direct:
-	docker compose run runner bundle exec rspec $(ARGS)
+	docker compose run --rm runner bundle exec rspec $(ARGS)
 
 ## Run rubocop in a docker container, supports ARGS=
 lint: build
@@ -48,7 +48,7 @@ lint: build
 
 ## Run rubocop in a docker container without building, supports ARGS=
 lint-direct:
-	docker compose run runner bundle exec rake rubocop $(ARGS)
+	docker compose run --rm runner bundle exec rake rubocop $(ARGS)
 
 ## Clean up docker compose resources
 clean:
