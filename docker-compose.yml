@@ -9,3 +9,4 @@ services:
       - type: bind
         source: .
         target: /app
+      - ./docker/ruby-${RUBY_VERSION}/Gemfile.lock:/app/Gemfile.lock
