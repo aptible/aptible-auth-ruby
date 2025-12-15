@@ -8,8 +8,8 @@ RUN if [ "${BUNDLER_VERSION}" != "" ] ; then \
     fi
 
 WORKDIR /app
-COPY Gemfile /app
-COPY aptible-auth.gemspec /app
+COPY Gemfile /app/
+COPY aptible-auth.gemspec /app/
 RUN mkdir -p /app/lib/aptible/auth/
 COPY lib/aptible/auth/version.rb /app/lib/aptible/auth/
 

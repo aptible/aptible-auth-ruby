@@ -21,9 +21,15 @@ help:
 					{prev = ""}' $(MAKEFILE_LIST) | sort
 	@echo
 
+BUILD_ARGS ?=
 ## Build and pull docker compose images
-build:
-	docker compose build --pull
+build: gemfile-lock
+	docker compose build --pull $(BUILD_ARGS)
+
+## Create a Gemfile.lock specific to the container (i.e., for the ruby version)
+gemfile-lock:
+	mkdir -pv ./docker/ruby-$(RUBY_VERSION)/ && \
+	echo '' > ./docker/ruby-$(RUBY_VERSION)/Gemfile.lock
 
 ## Open shell in a docker container, supports CMD=
 bash: build
@@ -40,7 +46,7 @@ test: build
 
 ## Run tests in a docker container without building, supports ARGS=
 test-direct:
-	docker compose run --rm runner bundle exec rspec $(ARGS)
+	$(MAKE) run CMD="bundle exec rspec $(ARGS)"
 
 ## Run rubocop in a docker container, supports ARGS=
 lint: build
@@ -48,10 +54,14 @@ lint: build
 
 ## Run rubocop in a docker container without building, supports ARGS=
 lint-direct:
-	docker compose run --rm runner bundle exec rake rubocop $(ARGS)
+	$(MAKE) run CMD="bundle exec rake rubocop $(ARGS)"
 
 ## Clean up docker compose resources
-clean:
+clean: clean-gemfile-lock
 	docker compose down --remove-orphans --volumes
+
+## Clean up the container specific Gemfile.lock
+clean-gemfile-lock:
+	rm -v ./docker/ruby-$(RUBY_VERSION)/Gemfile.lock
 
 .PHONY: build bash test
