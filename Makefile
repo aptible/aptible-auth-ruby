@@ -46,7 +46,7 @@ test: build
 
 ## Run tests in a docker container without building, supports ARGS=
 test-direct:
-	docker compose run runner bash -c 'bundle install && bundle exec rspec $(ARGS)'
+	$(MAKE) run CMD="bundle exec rspec $(ARGS)"
 
 ## Run rubocop in a docker container, supports ARGS=
 lint: build
@@ -57,7 +57,11 @@ lint-direct:
 	$(MAKE) run CMD="bundle exec rake rubocop $(ARGS)"
 
 ## Clean up docker compose resources
-clean:
+clean: clean-gemfile-lock
 	docker compose down --remove-orphans --volumes
+
+## Clean up the container specific Gemfile.lock
+clean-gemfile-lock:
+	rm -v ./docker/ruby-$(RUBY_VERSION)/Gemfile.lock
 
 .PHONY: build bash test
