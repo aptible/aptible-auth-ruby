@@ -8,7 +8,8 @@ ifeq ($(RUBY_VERSION_MAJOR),2)
 export BUNDLER_VERSION = 1.17.3
 endif
 endif
-export COMPOSE_PROJECT_NAME ?= aptible-auth-ruby-$(subst .,_,$(RUBY_VERSION))
+PROJECT_NAME = $(shell ls *.gemspec | sed 's/\.gemspec//')
+export COMPOSE_PROJECT_NAME ?= $(PROJECT_NAME)-$(subst .,_,$(RUBY_VERSION))
 
 default: help
 
@@ -62,6 +63,6 @@ clean: clean-gemfile-lock
 
 ## Clean up the container specific Gemfile.lock
 clean-gemfile-lock:
-	rm -v ./docker/ruby-$(RUBY_VERSION)/Gemfile.lock
+	rm -v ./docker/ruby-$(RUBY_VERSION)/Gemfile.lock ||:
 
 .PHONY: build bash test
