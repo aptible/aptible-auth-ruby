@@ -40,6 +40,11 @@ module Aptible
                                                        cause: e)
       end
 
+      def self.current_token(token:)
+        url = "#{Aptible::Auth.configuration.root_url}/current_token"
+        find_by_url(url, token: token)
+      end
+
       def authenticate_user(email, password, options = {})
         options[:scope] ||= 'manage'
         oauth_token = oauth.password.get_token(email, password, options)
