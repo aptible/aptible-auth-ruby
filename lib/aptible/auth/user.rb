@@ -24,6 +24,21 @@ module Aptible
         # TODO: Implement query params for /operations
         []
       end
+
+      # Returns roles with their organizations pre-loaded to avoid N+1 API calls
+      # when iterating through roles and accessing role.organization.
+      # Makes 2 backend requests: one for orgs, one for roles.
+      def roles_with_organizations
+        orgs_by_href = Organization.all(token: token, headers: headers)
+                                   .index_by(&:href)
+
+        roles.tap do |all_roles|
+          all_roles.each do |role|
+            org = orgs_by_href[role.links[:organization].href]
+            role.instance_variable_set(:@organization, org)
+          end
+        end
+      end
     end
   end
 end
