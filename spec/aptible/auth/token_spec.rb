@@ -229,4 +229,33 @@ describe Aptible::Auth::Token do
       expect(subject.send(:oauth)).to be(c)
     end
   end
+
+  describe '.current_token' do
+    let(:token_response) { double 'token_response' }
+    let(:access_token) { 'my_access_token' }
+    let(:root_url) { 'https://auth.example.com' }
+
+    before do
+      Aptible::Auth.configuration.root_url = root_url
+    end
+
+    it 'should fetch from /current_token endpoint with the provided token' do
+      expect(described_class).to receive(:find_by_url)
+        .with("#{root_url}/current_token", token: access_token)
+        .and_return(token_response)
+
+      expect(described_class.current_token(token: access_token)).to eq(token_response)
+    end
+
+    it 'should use configured root_url' do
+      custom_url = 'https://custom-auth.aptible.com'
+      Aptible::Auth.configuration.root_url = custom_url
+
+      expect(described_class).to receive(:find_by_url)
+        .with("#{custom_url}/current_token", token: access_token)
+        .and_return(token_response)
+
+      described_class.current_token(token: access_token)
+    end
+  end
 end

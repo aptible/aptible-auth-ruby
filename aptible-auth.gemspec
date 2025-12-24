@@ -26,6 +26,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'oauth2', '2.0.9'
 
   spec.add_development_dependency 'aptible-tasks', '>= 0.6.0'
+  spec.add_development_dependency 'httplog'
   spec.add_development_dependency 'pry'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rspec', '~> 3.0'
