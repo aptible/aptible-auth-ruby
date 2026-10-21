@@ -1,6 +1,7 @@
 
 ## Build and pull docker compose images
 build:
+	touch docker/Gemfile.lock
 	docker compose build --pull
 
 ## Open shell in a docker container, supports CMD=
