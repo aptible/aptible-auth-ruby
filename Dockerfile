@@ -1,11 +1,7 @@
-ARG RUBY_VERSION=2.3.1
+ARG RUBY_VERSION=3.4
 FROM ruby:${RUBY_VERSION}
 
-ARG BUNDLER_VERSION=1.17.3
-ENV BUNDLER_VERSION=${BUNDLER_VERSION}
-RUN if [ "${BUNDLER_VERSION}" != "" ] ; then \
-      gem install bundler -v "${BUNDLER_VERSION}" ; \
-    fi
+RUN apt-get upgrade -y ca-certificates
 
 WORKDIR /app
 COPY Gemfile /app/
